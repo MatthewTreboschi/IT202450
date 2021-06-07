@@ -17,6 +17,7 @@ function processArray($arr) {
 }
 echo "Problem 1: Odd Output<br>";
 ?>
+<a href="index.php">Main Page</a>
 <table>
     <thread>
         <th>A1</th>

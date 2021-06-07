@@ -14,6 +14,7 @@ function getTotal($arr) {
 }
 echo "Problem 2: Adding Floats<br>";
 ?>
+<a href="index.php">Main Page</a>
 <table>
     <thread>
         <th>A1</th>

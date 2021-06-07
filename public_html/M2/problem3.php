@@ -7,13 +7,6 @@ $a4 = ["-1", "2", "-3", "4", "-5", "5", "-6", "6", "-7", "7"];
 function bePositive($arr) {
     echo "<br>Processing Array:<br><pre>" . var_export($arr, true) . "</pre>";
     echo "<br>Positive output:<br>";
-    for($i=0; $i<count($arr); $i++){
-        $pos = $arr[$i];
-        if ($pos<0) {
-            $pos *= -1;
-        };
-        echo strval($pos) . ", ";
-    };
     //TODO use echo to output all of the values as positive (even if they were originally positive)
 
 }

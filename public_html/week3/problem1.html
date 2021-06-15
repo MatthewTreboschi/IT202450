@@ -5,18 +5,28 @@
     <title>Problem 1</title>
     <meta charset="utf-8" />
     <script>
+        h1 = document.querySelectorAll("h1");
+        h1.innerHTML = "clicked";
         window.addEventListener("load", () => {
             console.log("loaded via javascript");
+            var x;
+            x = document.querySelectorAll("a");
+            console.log(x);
+            x[0].addEventListener("click", getCurrentSelection(x[0].textContent));
             //TODO: add any extra onload processing you may need here
         });
-        function getCurrentSelection() {
+        function getCurrentSelection(x) {
             setTimeout(() => {
                 //added this delay here as some solutions may require it to update properly (i.e., click code may complete before the navigation changes)
                 //TODO: add code for processing the current selection 
-
+                console.log("check 1");
+                var h1, clicked;
+                clicked = x;
+                h1 = document.querySelectorAll("h1");
+                h1.innerHTML = clicked;
                 //Note: likely you'll want to call updateCurrentPage towards the end
             }, 100);
-        }
+        };
     </script>
     <style>
         body {
@@ -36,6 +46,7 @@
             padding-left: 12px;
             padding-right: 12px;
             text-decoration: none;
+            text-transform: capitalize;
         }
         nav ul li a:hover {
             color: orange
@@ -55,6 +66,9 @@
             padding: 0px;
             padding-left: 12px;
         /* TODO: make edits here */
+        }
+        h1 {
+            text-transform: capitalize;
         }
     </style>
     <!-- make the necessary edits above this line -->

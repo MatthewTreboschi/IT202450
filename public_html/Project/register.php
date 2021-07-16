@@ -48,11 +48,11 @@ if (isset($_POST["submit"])) {
     <form method="POST" onsubmit="return validate(this);">
         <div>
             <label for="email">Email: </label>
-            <input type="email" id="email" name="email" required />
+            <input type="email" id="email" name="email" value=<?php if(isset($email)){se($email);}else{echo'""';}?> required />
         </div>
         <div>
             <label for="username">Username: </label>
-            <input type="text" id="username" name="username" required />
+            <input type="text" id="username" name="username" value=<?php if(isset($username)){se($username);}else{echo'""';}?> required />
         </div>
         <div>
             <label for="pw">Password: </label>

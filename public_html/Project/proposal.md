@@ -10,52 +10,52 @@ Your Name: Matthew Treboschi
 
 Milestone Features:
     Milestone 1 (taken from class):
-        - [] User will be able to create a new account
+        - [x] User will be able to create a new account
             - Form fields
-                - [] Username, Email, Password
-                - [] Email is Required and must be validated
-                - [] Username is Required
-                - [] Confirm Passwords Match
+                - [x] Username, Email, Password
+                - [x] Email is Required and must be validated
+                - [x] Username is Required
+                - [x] Confirm Passwords Match
             - Users Table
-                - [] id, username, email, password, created, modified
+                - [x] id, username, email, password, created, modified
             - [] Passwords must be hashed
-            - [] Email should be unique
-            - [] Username should be unique
-            - [] System should let user know if username or email is taken and allow the user to correct the error without wiping the form
+            - [x] Email should be unique
+            - [x] Username should be unique
+            - [x] System should let user know if username or email is taken and allow the user to correct the error without wiping the form
                 - the only fields that may be cleared are password fields
-        - [] User will be able to log in t otheir account (given they enter the correct credentials)
+        - [x] User will be able to log into their account (given they enter the correct credentials)
             - Form
                 - [] User can login with email or username
-                - [] Password is required
-            - [] User should see friendly error messages when an account doesn't exist or passwords dont match
-            - [] logging in should fetch the user's details and save them in the session
-            - [] User will be directed to a landing page upon login
-                - [] non logged in users shouldnt have access
+                - [x] Password is required
+            - [x] User should see friendly error messages when an account doesn't exist or passwords dont match
+            - [x] logging in should fetch the user's details and save them in the session
+            - [x] User will be directed to a landing page upon login
+                - [x] non logged in users shouldnt have access
                 -this can be a home, profile, or a dashboard.
-            - [] User will be able to log out
-                - [] logging out redirects to login
-                - [] users should see a message that theyve successfully logged out
-                - [] hitting the back button shouldnt let them back in
+            - [x] User will be able to log out
+                - [x] logging out redirects to login
+                - [x] users should see a message that theyve successfully logged out
+                - [x] hitting the back button shouldnt let them back in
             - Basic security rules
                 - Authentication
-                    - [] Function to check if user is logged in
-                    - [] Function should be called on appropriate pages that allow logged in users
+                    - [x] Function to check if user is logged in
+                    - [x] Function should be called on appropriate pages that allow logged in users
                 - Authorization
-                    - [] have a roles table (id, name description, active, modified)
+                    - [x] have a roles table (id, name description, active, modified)
             - Basic Roles Implemented
-                - [] Have a Roles table (id, name, description, active, modified)
+                - [x] Have a Roles table (id, name, description, active, modified)
                 - [] Have a User Roles table (id, user_id, role_id, is_active, created, modified)
                 - Include a function to check if a user has a specific role (not this milestone)
             - [] Everything should be styled
                 - [] forms, nav bar, etc
-            - [] Any output messages/ errors should be 'user friendly'
+            - [x] Any output messages/ errors should be 'user friendly'
                 - Any technical errors or debug output displayed will result in a loss of points
-            - [] User will be able to see their profile
+            - [x] User will be able to see their profile
                 - email, username, etc
             - [] User will be able to edit their profile
                 - Changing username/email should properly check if its available before allowing the change
             - Any ofther fields should be properly validated
-            - Allow password reset (only if existing password is provided)
+            - [x] Allow password reset (only if existing password is provided)
 
 
     Milestone 2:

@@ -25,7 +25,7 @@ Milestone Features:
                 - the only fields that may be cleared are password fields
         - [x] User will be able to log into their account (given they enter the correct credentials)
             - Form
-                - [] User can login with email or username
+                - [x] User can login with email or username
                 - [x] Password is required
             - [x] User should see friendly error messages when an account doesn't exist or passwords dont match
             - [x] logging in should fetch the user's details and save them in the session
@@ -52,22 +52,22 @@ Milestone Features:
                 - Any technical errors or debug output displayed will result in a loss of points
             - [x] User will be able to see their profile
                 - email, username, etc
-            - [] User will be able to edit their profile
+            - [x] User will be able to edit their profile
                 - Changing username/email should properly check if its available before allowing the change
             - Any ofther fields should be properly validated
             - [x] Allow password reset (only if existing password is provided)
 
 
     Milestone 2:
-        - [] Create the Accounts table (id, account_number [unique, always 12 characters], user_id, balance (default 0), account_type, created, modified)
-        - [] Project setup steps:
-            - [] Create these as initial setup scripts in the sql folder
-                - [] Create a system user if they don’t exist (this will never be logged into, it’s just to keep things working per system requirements)
-                - [] Create a world account in the Accounts table created below (if it doesn’t exist)
-                    - [] Account_number must be “000000000000”
-                    - [] User_id must be the id of the system user
-                    - [] Account type must be “world”
-        - [] Create the Transactions table (see reference below)
+        - [x] Create the Accounts table (id, account_number [unique, always 12 characters], user_id, balance (default 0), account_type, created, modified)
+        - [x] Project setup steps:
+            - [x] Create these as initial setup scripts in the sql folder
+                - [x] Create a system user if they don’t exist (this will never be logged into, it’s just to keep things working per system requirements)
+                - [x] Create a world account in the Accounts table created below (if it doesn’t exist)
+                    - [x] Account_number must be “000000000000”
+                    - [x] User_id must be the id of the system user
+                    - [x] Account type must be “world”
+        - [x] Create the Transactions table (see reference below)
         - [] Dashboard page
             - [] Will have links for Create Account, My Accounts, Deposit, Withdraw Transfer, Profile
                 - [] Links that don’t have pages yet should just have href=”#”, you’ll update them later
@@ -209,14 +209,14 @@ Notes/References:
         - The first source/dest is the account that triggered the action to the dest account. This typically will be a negative change.
         - The second source/dest is the dest account's half of the transaction info.
         - source/dest will swap in the second half of the transaction
-        - BalanceChange will invert in the second half of the transaction
-        - This typically will be a positive change
-        - Src/Dest are the account id’s affected (Accounts.id, not Accounts.account_number).
-        - BalanceChange is the difference in the account balance (i.e., a deposit of $50) (deposit subtracts from source for the first part and adds to source for the second part.)
-        - TransactionType is a built-in identifier to track the action (i.e., deposit, withdraw, transfer, ext-transfer)
-        - Memo user-defined notes
-        - ExpectedTotal is the account’s final value after the transaction, respectively. This is not to be used as the “Account Balance” it’s recorded for bookkeeping and review purposes.
-        - Created is when the transaction occurred
+        - [x] BalanceChange will invert in the second half of the transaction
+            - This typically will be a positive change
+        - [x] Src/Dest are the account id’s affected (Accounts.id, not Accounts.account_number).
+        - [x] BalanceChange is the difference in the account balance (i.e., a deposit of $50) (deposit subtracts from source for the first part and adds to source for the second part.)
+        - [x] TransactionType is a built-in identifier to track the action (i.e., deposit, withdraw, transfer, ext-transfer)
+        - [x] Memo user-defined notes
+        - [x] ExpectedTotal is the account’s final value after the transaction, respectively. This is not to be used as the “Account Balance” it’s recorded for bookkeeping and review purposes.
+        - [x] Created is when the transaction occurred
         - The below Transaction/Ledger table should total (SUM) up to zero to show that your bank is in balance. Otherwise, something bad happened with the 
 
 

@@ -68,16 +68,16 @@ Milestone Features:
                     - [x] User_id must be the id of the system user
                     - [x] Account type must be “world”
         - [x] Create the Transactions table (see reference below)
-        - [] Dashboard page
-            - [] Will have links for Create Account, My Accounts, Deposit, Withdraw Transfer, Profile
-                - [] Links that don’t have pages yet should just have href=”#”, you’ll update them later
+        - [x] Dashboard page
+            - [x] Will have links for Create Account, My Accounts, Deposit, Withdraw Transfer, Profile
+                - [x] Links that don’t have pages yet should just have href=”#”, you’ll update them later
         - [] User will be able to create a checking account
-            - [] System will generate a unique 12 digit account number
-                - [] Options (strike out the option you won’t do):
-                    - [] Option 1: Generate a random 12 digit/character value; must regenerate if a duplicate collision occurs
-                    - [] Option 2: Generate the number based on the id column; requires inserting a null first to get the last insert id, then update the record immediately after
-            - [] System will associate the account to the user
-            - [] Account type will be set as checking
+            - [x] System will generate a unique 12 digit account number
+                - [x] Options (strike out the option you won’t do):
+                    - [x] Option 1: Generate a random 12 digit/character value; must regenerate if a duplicate collision occurs
+                    - [-] Option 2: Generate the number based on the id column; requires inserting a null first to get the last insert id, then update the record immediately after
+            - [x] System will associate the account to the user
+            - [x] Account type will be set as checking
             - [] Will require a minimum deposit of $5 (from the world account)
                 - [] Entry will be recorded in the Transaction table as a transaction pair (per notes below)
                 - [] Account Balance will be updated based on SUM of BalanceChange of AccountSrc

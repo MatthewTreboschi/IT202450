@@ -56,7 +56,7 @@ function new_acc($deposit, $accType){
         $db = getDB();
         $entered = False;
         $stmt = $db->prepare("INSERT INTO Accounts (account_number, user_id, account_type) VALUES (:accNum, :userid, :accType)");
-        while($entered){
+        while(!$entered){
             try {
                 $accNum = "";
                 for ($i = 0; $i<12; $i++){

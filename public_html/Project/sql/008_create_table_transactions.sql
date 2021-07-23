@@ -7,7 +7,6 @@ CREATE TABLE IF NOT EXISTS  `Transactions`
     `transaction_type`  VARCHAR(30),
     `memo`  VARCHAR(100),
     `expected_total` int,
-    `account_type`  VARCHAR(40),
     `created`    timestamp default current_timestamp,
     `modified`   timestamp default current_timestamp on update current_timestamp,
     FOREIGN KEY (`source`) REFERENCES Accounts(`id`),

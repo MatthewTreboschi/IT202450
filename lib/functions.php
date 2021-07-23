@@ -69,15 +69,82 @@ function new_acc(){
                 $entered = False;
             }
         }
-        transaction($accNum, "000000000000", 500);
+        transaction($accNum, "000000000000", 5, "deposit", "Initial deposit");
         flash("Welcome! Your account has been created successfully", "success");
     }
     else {
         flash("You're not logged in!", "Whoops!");
     }
 }
-function transaction($to = "", $from = "", $amt = 0){
-    
+function get_balance($accNum = ""){
+    $balance = 0;
+    if ($accNum){
+        $db = getDB();
+        $stmt = $db->prepare("SELECT balance FROM Accounts WHERE account_number = :accNum");
+        try {
+            $stmt->execute([":accNum" => $accNum]);
+            $r = $stmt->fetch(PDO::FETCH_ASSOC);
+            if ($r) {
+                $balance = (int)se($r, "balance", 0, false);
+            }
+        } catch (PDOException $e) {
+            error_log("Unknown error during balance check: " . var_export($e->errorInfo, true));
+        }
+    }
+    return $balance;
+}
+function get_account_id($accNum = ""){
+    $id = 0;
+    if ($accNum){
+        $db = getDB();
+        $stmt = $db->prepare("SELECT id FROM Accounts WHERE account_number = :accNum");
+        try {
+            $stmt->execute([":accNum" => $accNum]);
+            $r = $stmt->fetch(PDO::FETCH_ASSOC);
+            if ($r) {
+                $id = (int)se($r, "id", 0, false);
+            }
+        } catch (PDOException $e) {
+            error_log("Unknown error during account id check: " . var_export($e->errorInfo, true));
+        }
+    }
+    return $id;
+}
+function transaction($to = "", $from = "", $amt = 0, $type = "deposit", $memo = "No memo"){
+    try {
+        if($to && $from){
+            $toBalance = get_balance($to);
+            $fromBalance = get_balance($from);
+            $toAccID = get_account_id($to);
+            $fromAccID = get_account_id($from);
+            if($amt<0){
+                flash("Negative amount for transaction", "Negative amount");
+            }
+            else if(($toBalance+$amt<0 || $to == "000000000000") && ($fromBalance-$amt<0 || $from == "000000000000")){
+                $db = getDB();
+                $stmt = $db->prepare("UPDATE Accounts SET balance = balance + :amt WHERE account_number = :to");
+                $stmt->execute([":amt" => $amt, ":to"=>$to]);
+
+                $stmt = $db->prepare("UPDATE Accounts SET balance = balance - :amt WHERE account_number = :from");
+                $stmt->execute([":amt" => $amt, ":from"=>$from]);
+
+                $stmt = $db->prepare("INSERT INTO Transactions (source, dest, bal_change, transaction_type, memo, expected total) VALUES (:from, :to, :amt, :type, :memo, :total)");
+                $stmt->execute([":from"=>$fromAccID, ":to"=>$toAccID, ":amt" => $amt, ":type"=>$type, ":memo"=>$memo, ":total"=>($fromBalance-$amt)]);
+
+                $stmt = $db->prepare("INSERT INTO Transactions (source, dest, bal_change, transaction_type, memo, expected total) VALUES (:to, :from, :amt, :type, :memo, :total)");
+                $stmt->execute([":to"=>$toAccID, ":from"=>$fromAccID, ":amt" => $amt, ":type"=>$type, ":memo"=>$memo, ":total"=>($toBalance+$amt)]);
+            }
+            else {
+                flash("One of the accounts doesn't have enough money for this transaciton", "Insufficient Funds!");
+            }
+        }
+        else {
+            flash("This transaction doesn't have an account number source and destination", "No to and from!");
+        }
+    }
+    catch (PDOException $e) {
+        error_log("Unknown error during transaction: " . var_export($e->errorInfo, true));
+    }
 }
 //flash message system
 function flash($msg = "", $color = "info") {

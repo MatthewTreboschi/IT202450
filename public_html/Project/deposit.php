@@ -5,4 +5,4 @@ if (!is_logged_in()) {
 }
 require_once(__DIR__ . "/../../partials/nav.php");
 ?>
-<h1>Hello World, this is the accounts page</h1>
+<h1>Hello World, this is the deposit page</h1>

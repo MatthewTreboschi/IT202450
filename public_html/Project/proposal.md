@@ -78,10 +78,10 @@ Milestone Features:
                     - [-] Option 2: Generate the number based on the id column; requires inserting a null first to get the last insert id, then update the record immediately after
             - [x] System will associate the account to the user
             - [x] Account type will be set as checking
-            - [] Will require a minimum deposit of $5 (from the world account)
-                - [] Entry will be recorded in the Transaction table as a transaction pair (per notes below)
-                - [] Account Balance will be updated based on SUM of BalanceChange of AccountSrc
-            - [] User will see user-friendly error messages when appropriate
+            - [x] Will require a minimum deposit of $5 (from the world account)
+                - [x] Entry will be recorded in the Transaction table as a transaction pair (per notes below)
+                - [x] Account Balance will be updated based on SUM of BalanceChange of AccountSrc
+            - [x] User will see user-friendly error messages when appropriate
             - [] User will see user-friendly success message when account is created successfully
                 - [] Redirect user to their Accounts page
         - [] User will be able to list their accounts
@@ -201,23 +201,23 @@ Milestone Features:
 
 Notes/References:
         - Account Number Requirements
-        - Should be 12 characters long
-        - “World” account should be “000000000000” (this is used for deposit/withdraw showing the movement of money outside of the bank)
-        - Each transaction must be recorded as two separate inserts to the transaction table
+            - Should be 12 characters long
+            - “World” account should be “000000000000” (this is used for deposit/withdraw showing the movement of money outside of the bank)
+            - Each transaction must be recorded as two separate inserts to the transaction table
         - *Transaction Table Minimum Requirements
-        - Each action for a set of accounts will be in pairs. The colors in the table below highlight what this means.
-        - The first source/dest is the account that triggered the action to the dest account. This typically will be a negative change.
-        - The second source/dest is the dest account's half of the transaction info.
-        - source/dest will swap in the second half of the transaction
-        - [x] BalanceChange will invert in the second half of the transaction
-            - This typically will be a positive change
-        - [x] Src/Dest are the account id’s affected (Accounts.id, not Accounts.account_number).
-        - [x] BalanceChange is the difference in the account balance (i.e., a deposit of $50) (deposit subtracts from source for the first part and adds to source for the second part.)
-        - [x] TransactionType is a built-in identifier to track the action (i.e., deposit, withdraw, transfer, ext-transfer)
-        - [x] Memo user-defined notes
-        - [x] ExpectedTotal is the account’s final value after the transaction, respectively. This is not to be used as the “Account Balance” it’s recorded for bookkeeping and review purposes.
-        - [x] Created is when the transaction occurred
-        - The below Transaction/Ledger table should total (SUM) up to zero to show that your bank is in balance. Otherwise, something bad happened with the 
+            - Each action for a set of accounts will be in pairs. The colors in the table below highlight what this means.
+            - The first source/dest is the account that triggered the action to the dest account. This typically will be a negative change.
+            - The second source/dest is the dest account's half of the transaction info.
+            - source/dest will swap in the second half of the transaction
+            - [x] BalanceChange will invert in the second half of the transaction
+                - This typically will be a positive change
+            - [] Src/Dest are the account id’s affected (Accounts.id, not Accounts.account_number).
+            - [x] BalanceChange is the difference in the account balance (i.e., a deposit of $50) (deposit subtracts from source for the first part and adds to source for the second part.)
+            - [x] TransactionType is a built-in identifier to track the action (i.e., deposit, withdraw, transfer, ext-transfer)
+            - [x] Memo user-defined notes
+            - [x] ExpectedTotal is the account’s final value after the transaction, respectively. This is not to be used as the “Account Balance” it’s recorded for bookkeeping and review purposes.
+            - [x] Created is when the transaction occurred
+            - The below Transaction/Ledger table should total (SUM) up to zero to show that your bank is in balance. Otherwise, something bad happened with the 
 
 
 

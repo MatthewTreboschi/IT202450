@@ -10,10 +10,10 @@ require_once(__DIR__ . "/../../partials/nav.php");
 <div>
     <div class="sidenav">
         <a href="profile.php">Profile</a>
-        <a href="#">Create Account</a>
-        <a href="#">My Accounts</a>
-        <a href="#">Deposit</a>
-        <a href="#">Withdrawal</a>
+        <a href="new_acc.php">Create Account</a>
+        <a href="accounts.php">My Accounts</a>
+        <a href="deposit.php">Deposit</a>
+        <a href="withdraw.php">Withdrawal</a>
     </div>
     <h2>MATT'S<br>BANK</h2>
 </div>

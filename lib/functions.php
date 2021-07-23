@@ -120,7 +120,7 @@ function transaction($to = "", $from = "", $amt = 0, $type = "deposit", $memo = 
             if($amt<0){
                 flash("Negative amount for transaction", "Negative amount");
             }
-            else if(($toBalance+$amt<0 || $to == "000000000000") && ($fromBalance-$amt<0 || $from == "000000000000")){
+            else if((!$toBalance+$amt<0 || $to == "000000000000") && (!$fromBalance-$amt<0 || $from == "000000000000")){
                 $db = getDB();
                 $stmt = $db->prepare("UPDATE Accounts SET balance = balance + :amt WHERE account_number = :to");
                 $stmt->execute([":amt" => $amt, ":to"=>$to]);

@@ -60,7 +60,7 @@ function new_acc($deposit, $accType){
             try {
                 $accNum = "";
                 for ($i = 0; $i<12; $i++){
-                    $accNum += substr($strChars, rand(0,61), 1);
+                    $accNum .= substr($strChars, rand(0,61), 1);
                 }
                 $stmt->execute([":accNum" => $accNum, ":userid" => $userid, ":accType"=>$accType]);
                 $entered = True;

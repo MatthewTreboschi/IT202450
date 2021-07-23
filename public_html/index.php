@@ -10,7 +10,7 @@
             <lh>Week 3</lh>
             <li><a href="week3/problem1.html">problem 1</a></li>
             <lh>Project</lh>
-            <li><a href="Project/home.php">problem 1</a></li>
+            <li><a href="Project/home.php">Project</a></li>
         </ul>
     </li>
 </ul>

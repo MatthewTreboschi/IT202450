@@ -70,7 +70,7 @@ function new_acc($deposit, $accType){
         }
         transaction($accNum, "000000000000", $deposit, "deposit", "Initial deposit");
         flash("Welcome! Your account has been created successfully", "success");
-        die(header("Location: accounts.php"));
+        //die(header("Location: accounts.php"));
     }
     else {
         flash("You're not logged in!", "Whoops!");

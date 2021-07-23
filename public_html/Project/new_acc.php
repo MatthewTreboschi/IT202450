@@ -1,9 +1,8 @@
 <?php
-require_once(__DIR__ . "/../../lib/functions.php");
+require_once(__DIR__ . "/../../partials/nav.php");
 if (!is_logged_in()) {
     die(header("Location: login.php"));
 }
-require_once(__DIR__ . "/../../partials/nav.php");
 if (isset($_POST["submit"])) {
     $accType = se($_POST, "type", null, false);
     $deposit = trim(se($_POST, "deposit", null, false));

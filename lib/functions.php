@@ -48,12 +48,11 @@ function get_user_id() {
     }
     return false;
 }
-function new_acc(){
+function new_acc($deposit, $accType){
     if (is_logged_in()){
         $userid = get_user_id();
         //letters are in qwerty order. I wanted 1 of each and order didnt matter so i swiped my finger across each row of keys
         $strChars = "1234567890qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM";
-        $accType = "Checking";
         $db = getDB();
         $entered = False;
         $stmt = $db->prepare("INSERT INTO Accounts (account_number, user_id, account_type) VALUES (:accNum, :userid, :accType)");
@@ -69,8 +68,9 @@ function new_acc(){
                 $entered = False;
             }
         }
-        transaction($accNum, "000000000000", 5, "deposit", "Initial deposit");
+        transaction($accNum, "000000000000", $deposit, "deposit", "Initial deposit");
         flash("Welcome! Your account has been created successfully", "success");
+        die(header("Location: accounts.php"));
     }
     else {
         flash("You're not logged in!", "Whoops!");

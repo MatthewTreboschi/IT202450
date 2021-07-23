@@ -82,8 +82,8 @@ Milestone Features:
                 - [x] Entry will be recorded in the Transaction table as a transaction pair (per notes below)
                 - [x] Account Balance will be updated based on SUM of BalanceChange of AccountSrc
             - [x] User will see user-friendly error messages when appropriate
-            - [] User will see user-friendly success message when account is created successfully
-                - [] Redirect user to their Accounts page
+            - [x] User will see user-friendly success message when account is created successfully
+                - [x] Redirect user to their Accounts page
         - [] User will be able to list their accounts
             - [] Limit results to 5 for now
             - [] Show account number, account type and balance

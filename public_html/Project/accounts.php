@@ -6,7 +6,7 @@ if (!is_logged_in()) {
 if (isset($_POST["submit"])) {
     $accNum = se($_POST, "accNum", null, false);
     $_SESSION["accNum"] = $accNum;
-    die(header("Location: transactions.php"))
+    die(header("Location: transactions.php"));
 }
 ?>
 <h1>This is the accounts page</h1>

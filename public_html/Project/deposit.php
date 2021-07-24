@@ -4,7 +4,7 @@ if (!is_logged_in()) {
     die(header("Location: login.php"));
 }
 if (isset($_POST["submit"])) {
-    print(implode(" ",$_POST));
+    print(implode(" ",array_keys($_POST)));
     $accNum = se($_POST, "Account Number", null, false);
     $deposit = trim(se($_POST, "deposit", null, false));
     $memo = se($_POST, "memo", null, false);

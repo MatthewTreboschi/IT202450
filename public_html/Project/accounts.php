@@ -18,7 +18,7 @@ if (isset($_POST["submit"])) {
             <th>Balance</th>
         </tr>
         <?php foreach (get_accounts() as $acc) : ?>
-        <tr onclick="<?php echo("post(\"" . $acc["account_number"] . "\""); ?>)">
+        <tr onclick="<?php echo("post('" . $acc["account_number"] . "'"); ?>)">
             <?php $v = $acc["account_number"]; ?>
             <td value ="<?php se($v); ?>"><?php se($v); ?></td>
             <?php $v = $acc["account_type"]; ?>

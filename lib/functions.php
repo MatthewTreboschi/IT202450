@@ -110,6 +110,7 @@ function get_account_id($accNum = ""){
     }
     return $id;
 }
+//the "to" account is always the account gaining money, the "from" is losing it
 function transaction($to = "", $from = "", $amt = 0, $type = "deposit", $memo = "No memo"){
     try {
         if($to && $from){
@@ -129,7 +130,7 @@ function transaction($to = "", $from = "", $amt = 0, $type = "deposit", $memo = 
                 $stmt->execute([":amt" => $amt, ":from"=>$from]);
 
                 $stmt = $db->prepare("INSERT INTO Transactions (source, dest, bal_change, transaction_type, memo, expected_total) VALUES (:from, :to, :amt, :type, :memo, :total)");
-                $stmt->execute([":from"=>$fromAccID, ":to"=>$toAccID, ":amt" => $amt, ":type"=>$type, ":memo"=>$memo, ":total"=>($fromBalance-$amt)]);
+                $stmt->execute([":from"=>$fromAccID, ":to"=>$toAccID, ":amt" => $amt*-1, ":type"=>$type, ":memo"=>$memo, ":total"=>($fromBalance-$amt)]);
 
                 $stmt = $db->prepare("INSERT INTO Transactions (source, dest, bal_change, transaction_type, memo, expected_total) VALUES (:to, :from, :amt, :type, :memo, :total)");
                 $stmt->execute([":to"=>$toAccID, ":from"=>$fromAccID, ":amt" => $amt, ":type"=>$type, ":memo"=>$memo, ":total"=>($toBalance+$amt)]);
@@ -163,7 +164,41 @@ function get_accounts(){
     }
     return $accounts;
 }
-function echoOptions(){
+function get_transactions($accNum = ""){
+    $transactions = [];
+    $accID = get_account_id($accNum);
+    if (is_logged_in()){
+        $db = getDB();
+        $stmt = $db->prepare("SELECT * FROM Transactions WHERE source = :accID");
+        try {
+            $stmt->execute([":accID" => $accID]);
+            $r = $stmt->fetch(PDO::FETCH_ASSOC);
+            if ($r) {
+                $transactions = $r;
+            }
+        } catch (PDOException $e) {
+            error_log("Unknown error during balance check: " . var_export($e->errorInfo, true));
+        }
+    }
+    return $transactions;
+    
+}
+function get_account_info($accNum = ""){
+    $account = [];
+    if (is_logged_in()){
+        $db = getDB();
+        $stmt = $db->prepare("SELECT * FROM Accounts WHERE account_number = :accNum");
+        try {
+            $stmt->execute([":accNum" => $accNum]);
+            $r = $stmt->fetch(PDO::FETCH_ASSOC);
+            if ($r) {
+                $account = $r;
+            }
+        } catch (PDOException $e) {
+            error_log("Unknown error during balance check: " . var_export($e->errorInfo, true));
+        }
+    }
+    return $account;
 
 }
 //flash message system

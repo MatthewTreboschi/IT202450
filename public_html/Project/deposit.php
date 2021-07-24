@@ -14,11 +14,11 @@ if (isset($_POST["submit"])) {
         $isValid = false;
     }
     if (!isset($accNum) || !isset($deposit)) {
-        flash("Must provide account number and deposit", "warning");
+        flash("Must provide account number and deposit amount", "warning");
         $isValid = false;
     }
     if ($deposit <= 0) {
-        flash("Deposit must be at least $5", "warning");
+        flash("Deposit must be greater than 0", "warning");
         $isValid = false;
     }
     if (strlen($memo)>99) {
@@ -31,7 +31,7 @@ if (isset($_POST["submit"])) {
 }
 ?>
 <div>
-    <h1>Minimum deposit of $5</h1>
+    <h1>Make a deposit here:</h1>
     <form method="POST" onsubmit="return validate(this);">
         <div>
             <label for="Account Number">Account number: </label>

@@ -128,10 +128,10 @@ function transaction($to = "", $from = "", $amt = 0, $type = "deposit", $memo = 
                 $stmt = $db->prepare("UPDATE Accounts SET balance = balance - :amt WHERE account_number = :from");
                 $stmt->execute([":amt" => $amt, ":from"=>$from]);
 
-                $stmt = $db->prepare("INSERT INTO Transactions (source, dest, bal_change, transaction_type, memo, expected total) VALUES (:from, :to, :amt, :type, :memo, :total)");
+                $stmt = $db->prepare("INSERT INTO Transactions (source, dest, bal_change, transaction_type, memo, expected_total) VALUES (:from, :to, :amt, :type, :memo, :total)");
                 $stmt->execute([":from"=>$fromAccID, ":to"=>$toAccID, ":amt" => $amt, ":type"=>$type, ":memo"=>$memo, ":total"=>($fromBalance-$amt)]);
 
-                $stmt = $db->prepare("INSERT INTO Transactions (source, dest, bal_change, transaction_type, memo, expected total) VALUES (:to, :from, :amt, :type, :memo, :total)");
+                $stmt = $db->prepare("INSERT INTO Transactions (source, dest, bal_change, transaction_type, memo, expected_total) VALUES (:to, :from, :amt, :type, :memo, :total)");
                 $stmt->execute([":to"=>$toAccID, ":from"=>$fromAccID, ":amt" => $amt, ":type"=>$type, ":memo"=>$memo, ":total"=>($toBalance+$amt)]);
             }
             else {

@@ -120,7 +120,7 @@ function transaction($to = "", $from = "", $amt = 0, $type = "deposit", $memo = 
             if($amt<0){
                 flash("Negative amount for transaction", "Negative amount");
             }
-            else if((!$toBalance+$amt<0 || $to == "000000000000") && (!$fromBalance-$amt<0 || $from == "000000000000")){
+            else if((!($toBalance+$amt<0) || $to == "000000000000") && (!$fromBalance-$amt<0 || $from == "000000000000")){
                 $db = getDB();
                 $stmt = $db->prepare("UPDATE Accounts SET balance = balance + :amt WHERE account_number = :to");
                 $stmt->execute([":amt" => $amt, ":to"=>$to]);
@@ -145,6 +145,26 @@ function transaction($to = "", $from = "", $amt = 0, $type = "deposit", $memo = 
     catch (PDOException $e) {
         error_log("Unknown error during transaction: " . var_export($e->errorInfo, true));
     }
+}
+function get_accounts(){
+    $accounts = [];
+    if (is_logged_in()){
+        $db = getDB();
+        $stmt = $db->prepare("SELECT * FROM Accounts WHERE user_id = :uid");
+        try {
+            $stmt->execute([":uid" => get_user_id()]);
+            $r = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            if ($r) {
+                $accounts = $r;
+            }
+        } catch (PDOException $e) {
+            error_log("Unknown error during balance check: " . var_export($e->errorInfo, true));
+        }
+    }
+    return $accounts;
+}
+function echoOptions(){
+
 }
 //flash message system
 function flash($msg = "", $color = "info") {

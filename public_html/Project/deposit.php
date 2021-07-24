@@ -9,12 +9,12 @@ if (isset($_POST["submit"])) {
     $memo = se($_POST, "memo", null, false);
 
     $isValid = true;
-    if (preg_match("/><\\\"", $memo)) {
+    if (preg_match("/[\/><\\\"]/", $memo)) {
         flash("None of the following special characters in the memo /><\\\"", "warning");
         $isValid = false;
     }
-    if (!isset($accType) || !isset($deposit)) {
-        flash("Must provide account type and deposit", "warning");
+    if (!isset($accNum) || !isset($deposit)) {
+        flash("Must provide account number and deposit", "warning");
         $isValid = false;
     }
     if ($deposit <= 0) {

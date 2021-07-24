@@ -29,7 +29,7 @@ if (isset($_POST["submit"])) {
         <?php endforeach; ?>
     </table>
 </div>
-<script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">
     function post(accNum) {
         $.post({"accNum": accNum})
     }

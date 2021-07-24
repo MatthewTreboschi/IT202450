@@ -1,8 +1,8 @@
 CREATE TABLE IF NOT EXISTS  `Transactions`
 (
     `id`         int auto_increment PRIMARY KEY,
-    `source`    int UNIQUE,
-    `dest`    int UNIQUE,
+    `source`    int,
+    `dest`    int,
     `bal_change`  int,
     `transaction_type`  VARCHAR(30),
     `memo`  VARCHAR(100),

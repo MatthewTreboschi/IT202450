@@ -19,7 +19,7 @@ if (isset($_POST["accNum"])) {
             <th>More Info</th>
         </tr>
         <?php foreach (get_accounts() as $acc) : ?>
-        <tr onclick="<?php echo("pst('" . $acc["account_number"] . "'"); ?>)">
+        <!--<tr onclick="<?php echo("pst('" . $acc["account_number"] . "'"); ?>)">-->
         <tr>
             <?php $v = $acc["account_number"]; ?>
             <td value ="<?php se($v); ?>"><?php se($v); ?></td>
@@ -27,11 +27,11 @@ if (isset($_POST["accNum"])) {
             <td value ="<?php se($v); ?>"><?php se($v); ?></td>
             <?php $v = $acc["balance"]; ?>
             <td value ="<?php se($v); ?>"><?php se($v); ?></td>
-            <!--<td>
+            <td>
                 <form method="POST">
-                    <button type="submit" name="submit" value></button>
+                    <button type="submit" name="accNum" value="<?php echo($acc["account_number"]); ?>">More info</button>
                 </form>
-            </td>-->
+            </td>
         </tr>
         <?php endforeach; ?>
     </table>

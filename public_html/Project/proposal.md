@@ -71,7 +71,7 @@ Milestone Features:
         - [x] Dashboard page
             - [x] Will have links for Create Account, My Accounts, Deposit, Withdraw Transfer, Profile
                 - [x] Links that don’t have pages yet should just have href=”#”, you’ll update them later
-        - [] User will be able to create a checking account
+        - [x] User will be able to create a checking account
             - [x] System will generate a unique 12 digit account number
                 - [x] Options (strike out the option you won’t do):
                     - [x] Option 1: Generate a random 12 digit/character value; must regenerate if a duplicate collision occurs
@@ -92,23 +92,23 @@ Milestone Features:
             - [] Show transaction history (from Transactions table)
                 - [] For now limit results to 10 latest
         - [] User will be able to deposit/withdraw from their account(s)
-            - [] Form should have a dropdown of their accounts to pick from
-                - [] World account should not be in the dropdown
-            - [] Form should have a field to enter a positive numeric value
-                - [] For now, allow any deposit value (0 - inf)
-            - [] For withdraw, add a check to make sure they can’t withdraw more money than the account has
-            - [] Form should allow the user to record a memo for the transaction
+            - [x] Form should have a dropdown of their accounts to pick from
+                - [x] World account should not be in the dropdown
+            - [x] Form should have a field to enter a positive numeric value
+                - [x] For now, allow any deposit value (0 - inf)
+            - [x] For withdraw, add a check to make sure they can’t withdraw more money than the account has
+            - [x] Form should allow the user to record a memo for the transaction
             - [] Each transaction is recorded as a transaction pair in the Transaction table per the details below
                 - [] These will reflect on the transaction history page (Account page’s “more info”)
                 - [] After each transaction pair, make sure to update the Account Balance by SUMing the BalanceChange for the AccountSrc
                     - [] This will be done after the insert
-                - [] Deposits will be from the “world account”
-                    - [] Must fetch the world account to get the id (do not hard code the id as it may change if the application migrates or gets rebuilt)
-                - [] Withdraws will be to the “world account”
-                    - [] Must fetch the world account to get the id (do not hard code the id as it may change if the application migrates or gets rebuilt)
-                - [] Transaction type should show accordingly (deposit/withdraw)
-            - [] Show appropriate user-friendly error messages
-            - [] Show user-friendly success messages
+                - [x] Deposits will be from the “world account”
+                    - [x] Must fetch the world account to get the id (do not hard code the id as it may change if the application migrates or gets rebuilt)
+                - [x] Withdraws will be to the “world account”
+                    - [x] Must fetch the world account to get the id (do not hard code the id as it may change if the application migrates or gets rebuilt)
+                - [x] Transaction type should show accordingly (deposit/withdraw)
+            - [x] Show appropriate user-friendly error messages
+            - [x] Show user-friendly success messages
 
 
     Milestone 3:

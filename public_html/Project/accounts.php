@@ -16,21 +16,28 @@ if (isset($_POST["submit"])) {
             <th>Account Number</th>
             <th>Account Type</th>
             <th>Balance</th>
+            <th>More Info</th>
         </tr>
         <?php foreach (get_accounts() as $acc) : ?>
-        <tr onclick="<?php echo("post('" . $acc["account_number"] . "'"); ?>)">
+        <tr onclick="<?php echo("pst('" . $acc["account_number"] . "'"); ?>)">
+        <tr>
             <?php $v = $acc["account_number"]; ?>
             <td value ="<?php se($v); ?>"><?php se($v); ?></td>
             <?php $v = $acc["account_type"]; ?>
             <td value ="<?php se($v); ?>"><?php se($v); ?></td>
             <?php $v = $acc["balance"]; ?>
             <td value ="<?php se($v); ?>"><?php se($v); ?></td>
+            <!--<td>
+                <form method="POST">
+                    <button type="submit" name="submit" value></button>
+                </form>
+            </td>-->
         </tr>
         <?php endforeach; ?>
     </table>
 </div>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">
-    function post(accNum) {
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    function pst(accNum) {
         $.post({"accNum": accNum})
     }
 </script>

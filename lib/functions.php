@@ -123,17 +123,18 @@ function transaction($to = "", $from = "", $amt = 0, $type = "deposit", $memo = 
             }
             else if((!($toBalance+$amt<0) || $to == "000000000000") && (!$fromBalance-$amt<0 || $from == "000000000000")){
                 $db = getDB();
-                $stmt = $db->prepare("UPDATE Accounts SET balance = balance + :amt WHERE account_number = :to");
-                $stmt->execute([":amt" => $amt, ":to"=>$to]);
-
-                $stmt = $db->prepare("UPDATE Accounts SET balance = balance - :amt WHERE account_number = :from");
-                $stmt->execute([":amt" => $amt, ":from"=>$from]);
 
                 $stmt = $db->prepare("INSERT INTO Transactions (source, dest, bal_change, transaction_type, memo, expected_total) VALUES (:from, :to, :amt, :type, :memo, :total)");
                 $stmt->execute([":from"=>$fromAccID, ":to"=>$toAccID, ":amt" => $amt*-1, ":type"=>$type, ":memo"=>$memo, ":total"=>($fromBalance-$amt)]);
 
                 $stmt = $db->prepare("INSERT INTO Transactions (source, dest, bal_change, transaction_type, memo, expected_total) VALUES (:to, :from, :amt, :type, :memo, :total)");
                 $stmt->execute([":to"=>$toAccID, ":from"=>$fromAccID, ":amt" => $amt, ":type"=>$type, ":memo"=>$memo, ":total"=>($toBalance+$amt)]);
+
+                $stmt = $db->prepare("UPDATE Accounts SET balance = (SELECT IFNULL(SUM(bal_change) FROM Transactions WHERE source = :toAccID) WHERE account_number = :to");
+                $stmt->execute(["toAccID"=>$toAccID, ":to"=>$to]);
+
+                $stmt = $db->prepare("UPDATE Accounts SET balance = (SELECT IFNULL(SUM(bal_change) FROM Transactions WHERE source = :fromAccID) WHERE account_number = :from");
+                $stmt->execute(["fromAccID"=>$fromAccID, ":from"=>$from]);
             }
             else {
                 flash("One of the accounts doesn't have enough money for this transaciton", "Insufficient Funds!");

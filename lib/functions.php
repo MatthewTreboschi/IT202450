@@ -151,7 +151,7 @@ function get_accounts(){
     $accounts = [];
     if (is_logged_in()){
         $db = getDB();
-        $stmt = $db->prepare("SELECT * FROM Accounts WHERE user_id = :uid");
+        $stmt = $db->prepare("SELECT * FROM Accounts WHERE user_id = :uid LIMIT 5");
         try {
             $stmt->execute([":uid" => get_user_id()]);
             $r = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -169,7 +169,7 @@ function get_transactions($accNum = ""){
     $accID = get_account_id($accNum);
     if (is_logged_in()){
         $db = getDB();
-        $stmt = $db->prepare("SELECT * FROM Transactions WHERE source = :accID");
+        $stmt = $db->prepare("SELECT * FROM Transactions WHERE source = :accID LIMIT 10");
         try {
             $stmt->execute([":accID" => $accID]);
             $r = $stmt->fetchAll(PDO::FETCH_ASSOC);

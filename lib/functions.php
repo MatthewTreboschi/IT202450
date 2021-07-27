@@ -172,7 +172,7 @@ function get_transactions($accNum = ""){
         $stmt = $db->prepare("SELECT * FROM Transactions WHERE source = :accID");
         try {
             $stmt->execute([":accID" => $accID]);
-            $r = $stmt->fetch(PDO::FETCH_ASSOC);
+            $r = $stmt->fetchAll(PDO::FETCH_ASSOC);
             if ($r) {
                 $transactions = $r;
             }

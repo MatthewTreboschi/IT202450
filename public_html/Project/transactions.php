@@ -5,7 +5,6 @@ if (!is_logged_in()) {
 }
 $accNum = $_SESSION["accNum"];
 $info = get_account_info($accNum);
-$transactions = get_transactions($accNum);
 ?>
 <h1>This is the transactions page for account <?php echo($accNum)?></h1>
 <h3>Account Number: <?php se($info["account_number"]); ?></h3>
@@ -22,8 +21,7 @@ $transactions = get_transactions($accNum);
             <th>Final Balance</th>
             <th>Time and Date</th>
         </tr>
-        <?php foreach ($transactions as $transaction) : ?>
-            <?php echo($transaction);?>
+        <?php foreach (get_transactions($accNum) as $transaction) : ?>
         <tr>
             <?php $v = $transaction["dest"]; ?>
             <td value ="<?php se($v); ?>"><?php se($v); ?></td>

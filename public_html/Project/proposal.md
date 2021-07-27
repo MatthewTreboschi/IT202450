@@ -84,13 +84,13 @@ Milestone Features:
             - [x] User will see user-friendly error messages when appropriate
             - [x] User will see user-friendly success message when account is created successfully
                 - [x] Redirect user to their Accounts page
-        - [] User will be able to list their accounts
-            - [] Limit results to 5 for now
-            - [] Show account number, account type and balance
-        - [] User will be able to click an account for more information (a.ka. Transaction History page)
-            - [] Show account number, account type, balance, opened/created date
-            - [] Show transaction history (from Transactions table)
-                - [] For now limit results to 10 latest
+        - [x] User will be able to list their accounts
+            - [x] Limit results to 5 for now
+            - [x] Show account number, account type and balance
+        - [x] User will be able to click an account for more information (a.ka. Transaction History page)
+            - [x] Show account number, account type, balance, opened/created date
+            - [x] Show transaction history (from Transactions table)
+                - [x] For now limit results to 10 latest
         - [] User will be able to deposit/withdraw from their account(s)
             - [x] Form should have a dropdown of their accounts to pick from
                 - [x] World account should not be in the dropdown
@@ -99,7 +99,7 @@ Milestone Features:
             - [x] For withdraw, add a check to make sure they can’t withdraw more money than the account has
             - [x] Form should allow the user to record a memo for the transaction
             - [] Each transaction is recorded as a transaction pair in the Transaction table per the details below
-                - [] These will reflect on the transaction history page (Account page’s “more info”)
+                - [x] These will reflect on the transaction history page (Account page’s “more info”)
                 - [] After each transaction pair, make sure to update the Account Balance by SUMing the BalanceChange for the AccountSrc
                     - [] This will be done after the insert
                 - [x] Deposits will be from the “world account”
@@ -122,7 +122,7 @@ Milestone Features:
             - [] Show appropriate user-friendly error messages
             - [] Show user-friendly success messages
         - [] Transaction History page
-            - [] Will show the latest 10 transactions by default
+            - [x] Will show the latest 10 transactions by default
             - [] User will be able to filter transactions between two dates
             - [] User will be able to filter transactions by type (deposit, withdraw, transfer)
             - [] Transactions should paginate results after the initial 10

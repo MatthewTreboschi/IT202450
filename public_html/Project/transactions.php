@@ -23,6 +23,7 @@ $transactions = get_transactions($accNum);
             <th>Time and Date</th>
         </tr>
         <?php foreach ($transactions as $transaction) : ?>
+            <?php echo($transaction);?>
         <tr>
             <?php $v = $transaction["dest"]; ?>
             <td value ="<?php se($v); ?>"><?php se($v); ?></td>

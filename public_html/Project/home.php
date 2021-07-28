@@ -13,6 +13,7 @@ if (!is_logged_in()) {
         <a href="accounts.php">My Accounts</a>
         <a href="deposit.php">Deposit</a>
         <a href="withdraw.php">Withdrawal</a>
+        <a href="#">Transfer</a>
     </div>
     <h2>MATT'S<br>BANK</h2>
 </div>

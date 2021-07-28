@@ -135,6 +135,8 @@ function transaction($to = "", $from = "", $amt = 0, $type = "deposit", $memo = 
 
                 $stmt = $db->prepare("UPDATE Accounts SET balance = (SELECT IFNULL(SUM(bal_change) FROM Transactions WHERE source = :fromAccID) WHERE account_number = :from");
                 $stmt->execute(["fromAccID"=>$fromAccID, ":from"=>$from]);
+
+                flash("Successful transaction with memo: " . $memo, "Success");
             }
             else {
                 flash("One of the accounts doesn't have enough money for this transaciton", "Insufficient Funds!");

@@ -121,7 +121,7 @@ function transaction($to = "", $from = "", $amt = 0, $type = "deposit", $memo = 
             if($amt<0){
                 flash("Negative amount for transaction", "Negative amount");
             }
-            else if((!($toBalance+$amt<0) || $to == "000000000000") && (!$fromBalance-$amt<0 || $from == "000000000000")){
+            else if((!($toBalance+$amt<0) || $to == "000000000000") && (!($fromBalance-$amt<0) || $from == "000000000000")){
                 $db = getDB();
 
                 $stmt = $db->prepare("INSERT INTO Transactions (source, dest, bal_change, transaction_type, memo, expected_total) VALUES (:from, :to, :amt, :type, :memo, :total)");

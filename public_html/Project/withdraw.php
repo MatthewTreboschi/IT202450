@@ -26,6 +26,7 @@ if (isset($_POST["submit"])) {
         $isValid = false;
     }
     if ($isValid) {
+        flash("Successful withdrawal with memo: " . $memo, "Success");
         transaction("000000000000", $accNum, $withdrawal, "withdrawal", $memo);
     }
 }

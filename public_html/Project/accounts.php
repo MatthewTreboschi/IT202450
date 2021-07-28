@@ -21,7 +21,7 @@ if (isset($_POST["accNum"])) {
             <th>Balance</th>
             <th>More Info</th>
         </tr>
-        <?php foreach (get_accounts() as $acc) : ?>
+        <?php foreach (get_accounts(true) as $acc) : ?>
         <!--<tr onclick="<?php echo("pst('" . $acc["account_number"] . "'"); ?>)">-->
         <tr>
             <?php $v = $acc["account_number"]; ?>

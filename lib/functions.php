@@ -151,11 +151,16 @@ function transaction($to = "", $from = "", $amt = 0, $type = "deposit", $memo = 
         error_log("Unknown error during transaction: " . var_export($e->errorInfo, true));
     }
 }
-function get_accounts(){
+function get_accounts($limit = false){
     $accounts = [];
     if (is_logged_in()){
         $db = getDB();
-        $stmt = $db->prepare("SELECT * FROM Accounts WHERE user_id = :uid LIMIT 5");
+        if ($limit){
+            $stmt = $db->prepare("SELECT * FROM Accounts WHERE user_id = :uid LIMIT 5");
+        }
+        else {
+            $stmt = $db->prepare("SELECT * FROM Accounts WHERE user_id = :uid");
+        }
         try {
             $stmt->execute([":uid" => get_user_id()]);
             $r = $stmt->fetchAll(PDO::FETCH_ASSOC);

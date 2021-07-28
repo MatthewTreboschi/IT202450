@@ -96,7 +96,7 @@ Milestone Features:
                 - [x][07/26/21] World account should not be in the dropdown
             - [x][07/26/21] Form should have a field to enter a positive numeric value
                 - [x][07/26/21] For now, allow any deposit value (0 - inf)
-            - [x][07/26/21] For withdraw, add a check to make sure they can’t withdraw more money than the account has
+            - [x][07/27/21] For withdraw, add a check to make sure they can’t withdraw more money than the account has
             - [x][07/26/21] Form should allow the user to record a memo for the transaction
             - [x][07/27/21] Each transaction is recorded as a transaction pair in the Transaction table per the details below
                 - [x][07/26/21] These will reflect on the transaction history page (Account page’s “more info”)
@@ -107,8 +107,8 @@ Milestone Features:
                 - [x][07/26/21] Withdraws will be to the “world account”
                     - [x][07/26/21] Must fetch the world account to get the id (do not hard code the id as it may change if the application migrates or gets rebuilt)
                 - [x][07/26/21] Transaction type should show accordingly (deposit/withdraw)
-            - [x][07/26/21] Show appropriate user-friendly error messages
-            - [x][07/26/21] Show user-friendly success messages
+            - [x][07/27/21] Show appropriate user-friendly error messages
+            - [x][07/27/21] Show user-friendly success messages
 
 
     Milestone 3:

@@ -51,7 +51,7 @@ if (isset($_POST["submit"])) {
             <input type="text" id="memo" name="memo" maxlength=99 required />
         </div>
         <div>
-            <input type="submit" name="submit" value="create account" />
+            <input type="submit" name="submit" value="Make deposit" />
         </div>
     </form>
 </div>

@@ -9,109 +9,109 @@ Your Name: Matthew Treboschi
 
 
 Milestone Features:
-    Milestone 1 (taken from class):
-        - [x] User will be able to create a new account
-            - Form fields
-                - [x] Username, Email, Password
-                - [x] Email is Required and must be validated
-                - [x] Username is Required
-                - [x] Confirm Passwords Match
-            - Users Table
-                - [x] id, username, email, password, created, modified
-            - [] Passwords must be hashed
-            - [x] Email should be unique
-            - [x] Username should be unique
-            - [x] System should let user know if username or email is taken and allow the user to correct the error without wiping the form
-                - the only fields that may be cleared are password fields
-        - [x] User will be able to log into their account (given they enter the correct credentials)
-            - Form
-                - [x] User can login with email or username
-                - [x] Password is required
-            - [x] User should see friendly error messages when an account doesn't exist or passwords dont match
-            - [x] logging in should fetch the user's details and save them in the session
-            - [x] User will be directed to a landing page upon login
-                - [x] non logged in users shouldnt have access
-                -this can be a home, profile, or a dashboard.
-            - [x] User will be able to log out
-                - [x] logging out redirects to login
-                - [x] users should see a message that theyve successfully logged out
-                - [x] hitting the back button shouldnt let them back in
-            - Basic security rules
-                - Authentication
-                    - [x] Function to check if user is logged in
-                    - [x] Function should be called on appropriate pages that allow logged in users
-                - Authorization
-                    - [x] have a roles table (id, name description, active, modified)
-            - Basic Roles Implemented
-                - [x] Have a Roles table (id, name, description, active, modified)
-                - [] Have a User Roles table (id, user_id, role_id, is_active, created, modified)
-                - Include a function to check if a user has a specific role (not this milestone)
-            - [] Everything should be styled
-                - [] forms, nav bar, etc
-            - [x] Any output messages/ errors should be 'user friendly'
-                - Any technical errors or debug output displayed will result in a loss of points
-            - [x] User will be able to see their profile
-                - email, username, etc
-            - [x] User will be able to edit their profile
-                - Changing username/email should properly check if its available before allowing the change
-            - Any ofther fields should be properly validated
-            - [x] Allow password reset (only if existing password is provided)
+
+1. Milestone 1 (taken from class):
+   - [x] User will be able to create a new account
+        - Form fields
+            - [x] Username, Email, Password
+            - [x] Email is Required and must be validated
+            - [x] Username is Required
+            - [x] Confirm Passwords Match
+        - Users Table
+            - [x] id, username, email, password, created, modified
+        - [ ] Passwords must be hashed
+        - [x] Email should be unique
+        - [x] Username should be unique
+        - [x] System should let user know if username or email is taken and allow the user to correct the error without wiping the form
+            - the only fields that may be cleared are password fields
+    - [x] User will be able to log into their account (given they enter the correct credentials)
+        - Form
+            - [x] User can login with email or username
+            - [x] Password is required
+        - [x] User should see friendly error messages when an account doesn't exist or passwords dont match
+        - [x] logging in should fetch the user's details and save them in the session
+        - [x] User will be directed to a landing page upon login
+            - [x] non logged in users shouldnt have access
+            -this can be a home, profile, or a dashboard.
+        - [x] User will be able to log out
+            - [x] logging out redirects to login
+            - [x] users should see a message that theyve successfully logged out
+            - [x] hitting the back button shouldnt let them back in
+        - Basic security rules
+            - Authentication
+                - [x] Function to check if user is logged in
+                - [x] Function should be called on appropriate pages that allow logged in users
+            - Authorization
+                - [x] have a roles table (id, name description, active, modified)
+        - Basic Roles Implemented
+            - [x] Have a Roles table (id, name, description, active, modified)
+            - [ ] Have a User Roles table (id, user_id, role_id, is_active, created, modified)
+            - Include a function to check if a user has a specific role (not this milestone)
+        - [ ] Everything should be styled
+            - [ ] forms, nav bar, etc
+        - [x] Any output messages/ errors should be 'user friendly'
+            - Any technical errors or debug output displayed will result in a loss of points
+        - [x] User will be able to see their profile
+            - email, username, etc
+        - [x] User will be able to edit their profile
+            - Changing username/email should properly check if its available before allowing the change
+        - Any ofther fields should be properly validated
+        - [x] Allow password reset (only if existing password is provided)
+            
+2. Milestone 2:
+    - [x] [07/20/21] Create the Accounts table (id, account_number [unique, always 12 characters], user_id, balance (default 0), account_type, created, modified)
+    - [x] [07/20/21] Project setup steps:
+        - [x] [07/20/21] Create these as initial setup scripts in the sql folder
+            - [x] [07/20/21] Create a system user if they don’t exist (this will never be logged into, it’s just to keep things working per system requirements)
+            - [x] [07/20/21] Create a world account in the Accounts table created below (if it doesn’t exist)
+                - [x] [07/20/21] Account_number must be “000000000000”
+                - [x] [07/20/21] User_id must be the id of the system user
+                - [x] [07/20/21] Account type must be “world”
+    - [x] [07/20/21] Create the Transactions table (see reference below)
+    - [x] [07/22/21] Dashboard page
+        - [x] [07/22/21] Will have links for Create Account, My Accounts, Deposit, Withdraw Transfer, Profile
+            - [x] [07/22/21] Links that don’t have pages yet should just have href=”#”, you’ll update them later
+    - [x] [07/26/21] User will be able to create a checking account
+        - [x] [07/22/21] System will generate a unique 12 digit account number
+            - [x] [07/22/21] Options (strike out the option you won’t do):
+                - [x] [07/22/21] Option 1: Generate a random 12 digit/character value; must regenerate if a duplicate collision occurs
+                - ~~Option 2: Generate the number based on the id column; requires inserting a null first to get the last insert id, then update the record immediately after~~
+        - [x] [07/22/21] System will associate the account to the user
+        - [x] [07/22/21] Account type will be set as checking
+        - [x] [07/23/21] Will require a minimum deposit of $5 (from the world account)
+            - [x] [07/23/21] Entry will be recorded in the Transaction table as a transaction pair (per notes below)
+            - [x] [07/23/21] Account Balance will be updated based on SUM of BalanceChange of AccountSrc
+        - [x] [07/23/21] User will see user-friendly error messages when appropriate
+        - [x] [07/23/21] User will see user-friendly success message when account is created successfully
+            - [x] [07/23/21] Redirect user to their Accounts page
+    - [x] [07/26/21] User will be able to list their accounts
+        - [x] [07/26/21] Limit results to 5 for now
+        - [x] [07/26/21] Show account number, account type and balance
+    - [x] [07/26/21] User will be able to click an account for more information (a.ka. Transaction History page)
+        - [x] [07/26/21] Show account number, account type, balance, opened/created date
+        - [x] [07/26/21] Show transaction history (from Transactions table)
+            - [x] [07/26/21] For now limit results to 10 latest
+    - [x] [07/27/21] User will be able to deposit/withdraw from their account(s)
+        - [x] [07/26/21] Form should have a dropdown of their accounts to pick from
+            - [x] [07/26/21] World account should not be in the dropdown
+        - [x] [07/26/21] Form should have a field to enter a positive numeric value
+            - [x] [07/26/21] For now, allow any deposit value (0 - inf)
+        - [x] [07/27/21] For withdraw, add a check to make sure they can’t withdraw more money than the account has
+        - [x] [07/26/21] Form should allow the user to record a memo for the transaction
+        - [x] [07/27/21] Each transaction is recorded as a transaction pair in the Transaction table per the details below
+            - [x] [07/26/21] These will reflect on the transaction history page (Account page’s “more info”)
+            - [x] [07/27/21] After each transaction pair, make sure to update the Account Balance by SUMing the BalanceChange for the AccountSrc
+                - [x] [07/27/21] This will be done after the insert
+            - [x] [07/26/21] Deposits will be from the “world account”
+                - [x] [07/26/21] Must fetch the world account to get the id (do not hard code the id as it may change if the application migrates or gets rebuilt)
+            - [x] [07/26/21] Withdraws will be to the “world account”
+                - [x] [07/26/21] Must fetch the world account to get the id (do not hard code the id as it may change if the application migrates or gets rebuilt)
+            - [x] [07/26/21] Transaction type should show accordingly (deposit/withdraw)
+        - [x] [07/27/21] Show appropriate user-friendly error messages
+        - [x] [07/27/21] Show user-friendly success messages
 
 
-    Milestone 2:
-        - [x][07/20/21] Create the Accounts table (id, account_number [unique, always 12 characters], user_id, balance (default 0), account_type, created, modified)
-        - [x][07/20/21] Project setup steps:
-            - [x][07/20/21] Create these as initial setup scripts in the sql folder
-                - [x][07/20/21] Create a system user if they don’t exist (this will never be logged into, it’s just to keep things working per system requirements)
-                - [x][07/20/21] Create a world account in the Accounts table created below (if it doesn’t exist)
-                    - [x][07/20/21] Account_number must be “000000000000”
-                    - [x][07/20/21] User_id must be the id of the system user
-                    - [x][07/20/21] Account type must be “world”
-        - [x][07/20/21] Create the Transactions table (see reference below)
-        - [x][07/22/21] Dashboard page
-            - [x][07/22/21] Will have links for Create Account, My Accounts, Deposit, Withdraw Transfer, Profile
-                - [x][07/22/21] Links that don’t have pages yet should just have href=”#”, you’ll update them later
-        - [x][07/26/21] User will be able to create a checking account
-            - [x][07/22/21] System will generate a unique 12 digit account number
-                - [x][07/22/21] Options (strike out the option you won’t do):
-                    - [x][07/22/21] Option 1: Generate a random 12 digit/character value; must regenerate if a duplicate collision occurs
-                    - ~~Option 2: Generate the number based on the id column; requires inserting a null first to get the last insert id, then update the record immediately after~~
-            - [x][07/22/21] System will associate the account to the user
-            - [x][07/22/21] Account type will be set as checking
-            - [x][07/23/21] Will require a minimum deposit of $5 (from the world account)
-                - [x][07/23/21] Entry will be recorded in the Transaction table as a transaction pair (per notes below)
-                - [x][07/23/21] Account Balance will be updated based on SUM of BalanceChange of AccountSrc
-            - [x][07/23/21] User will see user-friendly error messages when appropriate
-            - [x][07/23/21] User will see user-friendly success message when account is created successfully
-                - [x][07/23/21] Redirect user to their Accounts page
-        - [x][07/26/21] User will be able to list their accounts
-            - [x][07/26/21] Limit results to 5 for now
-            - [x][07/26/21] Show account number, account type and balance
-        - [x][07/26/21] User will be able to click an account for more information (a.ka. Transaction History page)
-            - [x][07/26/21] Show account number, account type, balance, opened/created date
-            - [x][07/26/21] Show transaction history (from Transactions table)
-                - [x][07/26/21] For now limit results to 10 latest
-        - [x][07/27/21] User will be able to deposit/withdraw from their account(s)
-            - [x][07/26/21] Form should have a dropdown of their accounts to pick from
-                - [x][07/26/21] World account should not be in the dropdown
-            - [x][07/26/21] Form should have a field to enter a positive numeric value
-                - [x][07/26/21] For now, allow any deposit value (0 - inf)
-            - [x][07/27/21] For withdraw, add a check to make sure they can’t withdraw more money than the account has
-            - [x][07/26/21] Form should allow the user to record a memo for the transaction
-            - [x][07/27/21] Each transaction is recorded as a transaction pair in the Transaction table per the details below
-                - [x][07/26/21] These will reflect on the transaction history page (Account page’s “more info”)
-                - [x][07/27/21] After each transaction pair, make sure to update the Account Balance by SUMing the BalanceChange for the AccountSrc
-                    - [x][07/27/21] This will be done after the insert
-                - [x][07/26/21] Deposits will be from the “world account”
-                    - [x][07/26/21] Must fetch the world account to get the id (do not hard code the id as it may change if the application migrates or gets rebuilt)
-                - [x][07/26/21] Withdraws will be to the “world account”
-                    - [x][07/26/21] Must fetch the world account to get the id (do not hard code the id as it may change if the application migrates or gets rebuilt)
-                - [x][07/26/21] Transaction type should show accordingly (deposit/withdraw)
-            - [x][07/27/21] Show appropriate user-friendly error messages
-            - [x][07/27/21] Show user-friendly success messages
-
-
-    Milestone 3:
+3. Milestone 3:
         - [] User will be able to transfer between their accounts
             - [] Form should include a dropdown first AccountSrc and a dropdown for AccountDest (only accounts the user owns; no world account)
             - [] Form should include a field for a positive numeric value

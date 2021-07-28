@@ -172,7 +172,7 @@ function get_transactions($accNum = ""){
     $accID = get_account_id($accNum);
     if (is_logged_in()){
         $db = getDB();
-        $stmt = $db->prepare("SELECT * FROM Transactions WHERE source = :accID LIMIT 10");
+        $stmt = $db->prepare("SELECT * FROM Transactions WHERE source = :accID ORDER BY created desc LIMIT 10 ");
         try {
             $stmt->execute([":accID" => $accID]);
             $r = $stmt->fetchAll(PDO::FETCH_ASSOC);

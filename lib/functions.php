@@ -130,10 +130,10 @@ function transaction($to = "", $from = "", $amt = 0, $type = "deposit", $memo = 
                 $stmt = $db->prepare("INSERT INTO Transactions (source, dest, bal_change, transaction_type, memo, expected_total) VALUES (:to, :from, :amt, :type, :memo, :total)");
                 $stmt->execute([":to"=>$toAccID, ":from"=>$fromAccID, ":amt" => $amt, ":type"=>$type, ":memo"=>$memo, ":total"=>($toBalance+$amt)]);
 
-                $stmt = $db->prepare("UPDATE Accounts SET balance = (SELECT IFNULL(SUM(bal_change) FROM Transactions WHERE source = :toAccID) WHERE account_number = :to");
+                $stmt = $db->prepare("UPDATE Accounts SET balance = (SELECT IFNULL(SUM(bal_change), 0) FROM Transactions WHERE source = :toAccID) WHERE account_number = :to");
                 $stmt->execute(["toAccID"=>$toAccID, ":to"=>$to]);
 
-                $stmt = $db->prepare("UPDATE Accounts SET balance = (SELECT IFNULL(SUM(bal_change) FROM Transactions WHERE source = :fromAccID) WHERE account_number = :from");
+                $stmt = $db->prepare("UPDATE Accounts SET balance = (SELECT IFNULL(SUM(bal_change), 0) FROM Transactions WHERE source = :fromAccID) WHERE account_number = :from");
                 $stmt->execute(["fromAccID"=>$fromAccID, ":from"=>$from]);
 
                 flash("Successful transaction with memo: " . $memo, "Success");

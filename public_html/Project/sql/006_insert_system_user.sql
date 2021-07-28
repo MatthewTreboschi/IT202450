@@ -1,1 +1,1 @@
-INSERT INTO Accounts(id, account_number, user_id) VALUES (-1, "0", null);
+INSERT INTO UserRoles(id, user_id) VALUES (-1, null);

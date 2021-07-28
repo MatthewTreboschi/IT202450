@@ -112,34 +112,34 @@ Milestone Features:
 
 
     Milestone 3:
-        - [x] User will be able to transfer between their accounts
+        - [x][07/28/21] User will be able to transfer between their accounts
             - [x][07/28/21] Form should include a dropdown first AccountSrc and a dropdown for AccountDest (only accounts the user owns; no world account)
             - [x][07/28/21] Form should include a field for a positive numeric value
             - [x][07/28/21] System shouldn’t allow the user to transfer more funds than what’s available in AccountSrc
             - [x][07/28/21] Form should allow the user to record a memo for the transaction
             - [x][07/28/21] Each transaction is recorded as a transaction pair in the Transaction table
                 - [x][07/28/21] These will reflect in the transaction history page
-            - [x] Show appropriate user-friendly error messages
-            - [x] Show user-friendly success messages
+            - [x][07/28/21] Show appropriate user-friendly error messages
+            - [x[07/28/21] Show user-friendly success messages
         - [] Transaction History page
-            - [x] Will show the latest 10 transactions by default
+            - [x][07/26/21] Will show the latest 10 transactions by default
             - [] User will be able to filter transactions between two dates
             - [] User will be able to filter transactions by type (deposit, withdraw, transfer)
             - [] Transactions should paginate results after the initial 10
         - [] User’s profile page should record/show First and Last name
         - [] User will be able to transfer funds to another user’s account
-            - [] Form should include a dropdown of the current user’s accounts (as AccountSrc)
+            - [x][07/28/21] Form should include a dropdown of the current user’s accounts (as AccountSrc)
             - [] Form should include a field for the destination user’s last name
             - [] Form should include a field for the last 4 digits of the destination user’s account number (to lookup AccountDest)
-            - [] Form should include a field for a positive numerical value
-            - [] Form should allow the user to record a memo for the transaction
-            - [] System shouldn’t let the user transfer more than the balance of their account
+            - [x][07/28/21] Form should include a field for a positive numerical value
+            - [x][07/28/21] Form should allow the user to record a memo for the transaction
+            - [x][07/28/21] System shouldn’t let the user transfer more than the balance of their account
             - [] System will lookup appropriate account based on destination user’s last name and the last 4 digits of the account number
             - [] Show appropriate user-friendly error messages
             - [] Show user-friendly success messages
-            - [] Transaction will be recorded with the type as “ext-transfer”
-            - [] Each transaction is recorded as a transaction pair in the Transaction table
-                - [] These will reflect in the transaction history page
+            - [x][07/28/21] Transaction will be recorded with the type as “ext-transfer”
+            - [x][07/28/21] Each transaction is recorded as a transaction pair in the Transaction table
+                - [x][07/28/21] These will reflect in the transaction history page
 
 
     Milestone 4:

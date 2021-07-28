@@ -69,8 +69,7 @@ function new_acc($deposit, $accType){
             }
         }
         transaction($accNum, "000000000000", $deposit, "deposit", "Initial deposit");
-        echo("<script> alert('Welcome! Your account has been created successfully'); </script>");
-        die(header("Location: accounts.php"));
+        die(header("Location: accounts.php?newacc=".$accNum));
     }
     else {
         flash("You're not logged in!", "Whoops!");

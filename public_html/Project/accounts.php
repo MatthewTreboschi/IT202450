@@ -3,6 +3,9 @@ require_once(__DIR__ . "/../../partials/nav.php");
 if (!is_logged_in()) {
     die(header("Location: login.php"));
 }
+if (isset($_GET["newacc"])) {
+    echo("Your new account is: " . $_GET["newacc"]);
+}
 if (isset($_POST["accNum"])) {
     $accNum = se($_POST, "accNum", null, false);
     $_SESSION["accNum"] = $accNum;

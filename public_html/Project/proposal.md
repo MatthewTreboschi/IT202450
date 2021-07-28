@@ -112,15 +112,15 @@ Milestone Features:
 
 
     Milestone 3:
-        - [] User will be able to transfer between their accounts
-            - [] Form should include a dropdown first AccountSrc and a dropdown for AccountDest (only accounts the user owns; no world account)
-            - [] Form should include a field for a positive numeric value
-            - [] System shouldn’t allow the user to transfer more funds than what’s available in AccountSrc
-            - [] Form should allow the user to record a memo for the transaction
-            - [] Each transaction is recorded as a transaction pair in the Transaction table
-                - [] These will reflect in the transaction history page
-            - [] Show appropriate user-friendly error messages
-            - [] Show user-friendly success messages
+        - [x] User will be able to transfer between their accounts
+            - [x][07/28/21] Form should include a dropdown first AccountSrc and a dropdown for AccountDest (only accounts the user owns; no world account)
+            - [x][07/28/21] Form should include a field for a positive numeric value
+            - [x][07/28/21] System shouldn’t allow the user to transfer more funds than what’s available in AccountSrc
+            - [x][07/28/21] Form should allow the user to record a memo for the transaction
+            - [x][07/28/21] Each transaction is recorded as a transaction pair in the Transaction table
+                - [x][07/28/21] These will reflect in the transaction history page
+            - [x] Show appropriate user-friendly error messages
+            - [x] Show user-friendly success messages
         - [] Transaction History page
             - [x] Will show the latest 10 transactions by default
             - [] User will be able to filter transactions between two dates

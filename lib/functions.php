@@ -187,7 +187,7 @@ function get_transactions($accNum = "", $start="", $end="", $type="", $page=0){
         if ($type) {
             $query .= " AND transaction_type = :type";
         }
-        $query .= " ORDER BY created desc LIMIT :page,10";
+        $query .= " ORDER BY created desc LIMIT :page , 10";
         $db = getDB();
         $stmt = $db->prepare($query);//"SELECT * FROM Transactions WHERE source = :accID ORDER BY created desc LIMIT 10 ");
         try {
@@ -197,6 +197,7 @@ function get_transactions($accNum = "", $start="", $end="", $type="", $page=0){
                 $transactions = $r;
             }
         } catch (PDOException $e) {
+            flash($query);
             error_log("Unknown error during balance check: " . var_export($e->errorInfo, true));
         }
     }

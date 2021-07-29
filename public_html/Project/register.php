@@ -24,6 +24,10 @@ if (isset($_POST["submit"])) {
         flash("Invalid email", "warning");
         $isValid = false;
     }
+    if (preg_match("/><\\\"\'{}[]|?,.-=_+)(*&^%$#@!`~", $username)) {
+        flash("No special characters are allowed in the username", "warning");
+        $isValid = false;
+    }
     //TODO add validation for username (length? disallow special chars? etc)
     if ($isValid) {
         //do our registration
@@ -52,7 +56,7 @@ if (isset($_POST["submit"])) {
         </div>
         <div>
             <label for="username">Username: </label>
-            <input type="text" id="username" name="username" value=<?php if(isset($username)){se($username);}else{echo'""';}?> required />
+            <input type="text" id="username" name="username" maxlength=12 value=<?php if(isset($username)){se($username);}else{echo'""';}?> required />
         </div>
         <div>
             <label for="pw">Password: </label>
@@ -101,6 +105,10 @@ if (isset($_POST["submit"])) {
         if (password.length < 3) {
             isValid = false;
             alert("Password must be 3 or more characters");
+        }
+        if (/[~`!#$%\^&*+=\-\[\]\\';,/{}|\\":<>\?]/g.test(username)) {
+            isValid = false;
+            alert("No special characters allowed in the username");
         }
         return isValid;
     }

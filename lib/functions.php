@@ -173,10 +173,11 @@ function get_accounts($limit = false){
     }
     return $accounts;
 }
-function get_transactions($accNum = "", $start="", $end="", $type="", $page=0){
+function get_transactions($accNum = "", $start="", $end="", $type="", $page=1){
     $transactions = [];
     $params = [];
     $accID = get_account_id($accNum);
+    $offset = ($page-1)*10;
     $params[":accID"] = $accID;
     if (is_logged_in()){
         $query = "SELECT * FROM Transactions WHERE source = :accID";
@@ -192,8 +193,8 @@ function get_transactions($accNum = "", $start="", $end="", $type="", $page=0){
             $query .= " AND transaction_type = :type";
             $params[":type"] = $type;
         }
-        $query .= " ORDER BY created desc LIMIT :page , 10";
-        $params[":page"] = $page;
+        $query .= " ORDER BY created desc LIMIT :offset , 10";
+        $params[":offset"] = $offset;
         $db = getDB();
         $db->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
         $stmt = $db->prepare($query);//"SELECT * FROM Transactions WHERE source = :accID ORDER BY created desc LIMIT 10 ");
@@ -229,6 +230,11 @@ function get_account_info($accNum = ""){
     }
     return $account;
 
+}
+function pagination_filter($newPage) {
+    $_GET["page"] = $newPage;
+    //php.net/manual/en/function.http-build-query.php
+    return se(http_build_query($_GET));
 }
 //flash message system
 function flash($msg = "", $color = "info") {

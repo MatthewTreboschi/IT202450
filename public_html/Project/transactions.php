@@ -20,7 +20,7 @@ if (isset($_GET["submit"])) {
     
 }
 $transactions = get_transactions($accNum, $start, $end, $type, $page);
-$total_pages = ceil(count($transactions)/10);
+$total_pages = floor(count($transactions)/10)+1;
 ?>
 <h1>This is the transactions page for account <?php echo($accNum)?></h1>
 <h3>Account Number: <?php se($info["account_number"]); ?></h3>

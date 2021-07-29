@@ -5,6 +5,18 @@ if (!is_logged_in()) {
 }
 $accNum = $_SESSION["accNum"];
 $info = get_account_info($accNum);
+$start = "";
+$end = "";
+$type = "";
+$page = 0;
+if (isset($_POST["submit"])) {
+    $start = se($_POST, "start", null, false);
+    $end = se($_POST, "end", null, false);
+    $type = se($_POST, "type", null, false);
+
+    
+}
+$transactions = get_transactions($accNum, $start, $end, $type, $page);
 ?>
 <h1>This is the transactions page for account <?php echo($accNum)?></h1>
 <h3>Account Number: <?php se($info["account_number"]); ?></h3>
@@ -14,8 +26,26 @@ $info = get_account_info($accNum);
 <div>
     <h4>Filter: </h4>
     <form method="POST">
-        <label for="start">Start date: </label>
-        <input type="date" name="start" id="start" />
+        <div>
+            <label for="start">Start date: </label>
+            <input type="date" name="start" id="start" />
+        </div>
+        <div>
+            <label for="end">End date: </label>
+            <input type="date" name="end" id="end" />
+        </div>
+        <div>
+            <label for="type">Transaction Type: </label>
+            <select name="type" id="type" >
+                <option value="deposit">deposit</option>
+                <option value="withdrawal">withdrawal</option>
+                <option value="Internal transfer">Internal transfer</option>
+                <option value="ext-transfer">External transfer</option>
+            </select>
+        </div>
+        <div>
+            <input type="submit" name="submit" value="Filter" />
+        </div>
     </form>
     <h4>Filtered transactions: </h4>
     <table>
@@ -27,7 +57,7 @@ $info = get_account_info($accNum);
             <th>Final Balance</th>
             <th>Time and Date</th>
         </tr>
-        <?php foreach (get_transactions($accNum) as $transaction) : ?>
+        <?php foreach ($transactions as $transaction) : ?>
         <tr>
             <?php $v = $transaction["dest"]; ?>
             <td value ="<?php se($v); ?>"><?php se($v); ?></td>

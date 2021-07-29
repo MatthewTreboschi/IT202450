@@ -173,14 +173,25 @@ function get_accounts($limit = false){
     }
     return $accounts;
 }
-function get_transactions($accNum = ""){
+function get_transactions($accNum = "", $start="", $end="", $type="", $page=0){
     $transactions = [];
     $accID = get_account_id($accNum);
     if (is_logged_in()){
+        $query = "SELECT * FROM Transactions WHERE source = :accID";
+        if ($start) {
+            $query .= " AND created > :start";
+        }
+        if ($end) {
+            $query .= " AND created < :end";
+        }
+        if ($type) {
+            $query .= " AND transaction_type = :type";
+        }
+        $query .= " ORDER BY created desc LIMIT :page,10";
         $db = getDB();
-        $stmt = $db->prepare("SELECT * FROM Transactions WHERE source = :accID ORDER BY created desc LIMIT 10 ");
+        $stmt = $db->prepare($query);//"SELECT * FROM Transactions WHERE source = :accID ORDER BY created desc LIMIT 10 ");
         try {
-            $stmt->execute([":accID" => $accID]);
+            $stmt->execute([":accID" => $accID, ":start" => $start, ":end" => $end, ":type" => $type, ":page" => $page]);
             $r = $stmt->fetchAll(PDO::FETCH_ASSOC);
             if ($r) {
                 $transactions = $r;

@@ -9,6 +9,8 @@
             <li><a href="week2/problem3.php">problem 3</a></li>
             <lh>Week 3</lh>
             <li><a href="week3/problem1.html">problem 1</a></li>
+            <lh>Project</lh>
+            <li><a href="Project/home.php">Project</a></li>
         </ul>
     </li>
 </ul>

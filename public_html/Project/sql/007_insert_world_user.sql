@@ -1,0 +1,1 @@
+INSERT INTO Accounts(id, account_number, user_id, account_type) VALUES (0, "000000000000", null, "world");

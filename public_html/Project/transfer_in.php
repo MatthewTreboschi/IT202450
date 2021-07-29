@@ -32,7 +32,7 @@ if (isset($_POST["submit"])) {
         $isValid = false;
     }
     if ($isValid) {
-        transaction($accNum, "000000000000", $amount, "Internal transfer", $memo);
+        transaction($toAccNum, $fromAccNum, $amount, "Internal transfer", $memo);
     }
 }
 ?>

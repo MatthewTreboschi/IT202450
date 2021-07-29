@@ -12,6 +12,12 @@ $info = get_account_info($accNum);
 <h3>Balance: <?php se($info["balance"]); ?></h3>
 <h3>Opened: <?php se($info["created"]); ?></h3>
 <div>
+    <h4>Filter: </h4>
+    <form method="POST">
+        <label for="start">Start date: </label>
+        <input type="date" name="start" id="start" />
+    </form>
+    <h4>Filtered transactions: </h4>
     <table>
         <tr>
             <th>Other Transactant</th>

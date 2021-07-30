@@ -87,12 +87,6 @@ if (isset($_POST["save"])) {
 <?php
 $first_name = get_first_name();
 $last_name = get_last_name();
-if (!$first_name) {
-    $first_name = "";
-}
-if (!$last_name) {
-    $last_name = "";
-}
 $email = get_user_email();
 $username = get_username();
 ?>

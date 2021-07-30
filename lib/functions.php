@@ -246,7 +246,12 @@ function get_first_name() {
             $stmt->execute([":id" => $id]);
             $r = $stmt->fetch(PDO::FETCH_ASSOC);
             if ($r) {
-                $first_name = se($r, "first_name", 0, false);
+                if (is_string($r["first_name"])){
+                    $first_name = se($r, "first_name", 0, false);
+                }
+                else {
+                    $first_name = "";
+                }
             }
         } catch (PDOException $e) {
             error_log("Unknown error during balance check: " . var_export($e->errorInfo, true));
@@ -264,7 +269,12 @@ function get_last_name() {
             $stmt->execute([":id" => $id]);
             $r = $stmt->fetch(PDO::FETCH_ASSOC);
             if ($r) {
-                $last_name = se($r, "last_name", 0, false);
+                if (is_string($r["last_name"])){
+                    $last_name = se($r, "last_name", 0, false);
+                }
+                else {
+                    $last_name = "";
+                }
             }
         } catch (PDOException $e) {
             error_log("Unknown error during balance check: " . var_export($e->errorInfo, true));

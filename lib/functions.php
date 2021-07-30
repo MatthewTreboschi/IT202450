@@ -282,6 +282,29 @@ function get_last_name() {
     }
     return $last_name;
 }
+function get_account_num($last_name="", $shortAccNum="") {
+    $account_number = "";
+    $accNumPattern = "%".$shortAccNum;
+    if (is_logged_in()){
+        $db = getDB();
+        $stmt = $db->prepare("SELECT account_number FROM Accounts JOIN Users ON Accounts.user_id = Users.id WHERE last_name = :last_name AND account_number LIKE :accNumPattern");
+        try {
+            $stmt->execute([":last_name" => $last_name, ":accNumPattern" => $accNumPattern]);
+            $r = $stmt->fetch(PDO::FETCH_ASSOC);
+            if ($r) {
+                if (is_string($r["account_number"])){
+                    $account_number = se($r, "account_number", 0, false);
+                }
+                else {
+                    $account_number = "";
+                }
+            }
+        } catch (PDOException $e) {
+            error_log("Unknown error during balance check: " . var_export($e->errorInfo, true));
+        }
+    }
+    return $account_number;
+}
 //flash message system
 function flash($msg = "", $color = "info") {
     $message = ["text" => $msg, "color" => $color];

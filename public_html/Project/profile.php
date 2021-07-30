@@ -8,12 +8,15 @@ if (!is_logged_in()) {
 if (isset($_POST["save"])) {
     $email = se($_POST, "email", null, false);
     $username = se($_POST, "username", null, false);
+    $first_name = se($_POST, "first_name", null, false);
+    $last_name = se($_POST, "last_name", null, false);
 
-    $params = [":email" => $email, ":username" => $username, ":id" => get_user_id()];
+    $params = [":email" => $email, ":username" => $username, ":last_name" => $last_name,":first_name" => $first_name, ":id" => get_user_id()];
     $db = getDB();
-    $stmt = $db->prepare("UPDATE Users set email = :email, username = :username where id = :id");
+    $stmt = $db->prepare("UPDATE Users set email = :email, username = :username, last_name = :last_name, first_name = :first_name where id = :id");
     try {
         $stmt->execute($params);
+        flash("If you changed Username, email, first name, or last name, it was updated successfully!", "Success");
     } catch (Exception $e) {
         if ($e->errorInfo[1] === 1062) {
             //https://www.php.net/manual/en/function.preg-match.php
@@ -83,6 +86,8 @@ if (isset($_POST["save"])) {
 ?>
 
 <?php
+$first_name = get_first_name();
+$last_name = get_last_name();
 $email = get_user_email();
 $username = get_username();
 ?>
@@ -93,7 +98,15 @@ $username = get_username();
     </div>
     <div class="mb-3">
         <label for="username">Username</label>
-        <input type="text" name="username" id="username" value="<?php se($username); ?>" />
+        <input type="text" name="username" id="username" maxlength=12 value="<?php se($username); ?>" />
+    </div>
+    <div>
+        <label for="first name">First name</label>
+        <input type="first name" name="first name" id="first name" maxlength=30 value="<?php se($first_name); ?>" />
+    </div>
+    <div>
+        <label for="last name">Last name</label>
+        <input type="last name" name="last name" id="last name" maxlength=30 value="<?php se($last_name); ?>" />
     </div>
     <!-- DO NOT PRELOAD PASSWORD -->
     <div>Password Reset</div>
@@ -118,7 +131,53 @@ $username = get_username();
         let con = form.confirmPassword.value;
         let isValid = true;
         //TODO add other client side validation....
-
+        let first_name = form.first_name.value;
+        let last_name = form.last_name.value;
+        let email = form.email.value;
+        let username = form.username.value;
+        let confirm = form.confirm.value;
+        let isValid = true;
+        if (email) {
+            email = email.trim();
+        }
+        if(username)    {
+            username = username.trim();
+        }
+        if (confirm) {
+            confirm = confirm.trim();
+        }
+        if(!username || username.length === 0)    {
+            isValid    =    false;
+            alert("Must provide a username");
+        }
+        if (email.indexOf("@") === -1) {
+            isValid = false;
+            alert("Invalid email");
+        }
+        if (pw.length < 3) {
+            isValid = false;
+            alert("Password must be 3 or more characters");
+        }
+        if (last_name.length>30){
+            isValid = false;
+            alert("last name must be 30 or fewer characters");
+        }
+        if (first_name.length>30){
+            isValid = false;
+            alert("first name must be 30 or fewer characters");
+        }
+        if (/[~`!#$%\^&*+=\-\[\]\\';,/{}|\\":<>\?]/g.test(username)) {
+            isValid = false;
+            alert("No special characters allowed in the username");
+        }
+        if (/[~`!#$%\^&*+=\-\[\]\\';,/{}|\\":<>\?]/g.test(first_name)) {
+            isValid = false;
+            alert("No special characters allowed in the first name");
+        }
+        if (/[~`!#$%\^&*+=\-\[\]\\';,/{}|\\":<>\?]/g.test(last_name)) {
+            isValid = false;
+            alert("No special characters allowed in the last name");
+        }
         //example of using flash via javascript
         //find the flash container, create a new element, appendChild
         if (pw !== con) {

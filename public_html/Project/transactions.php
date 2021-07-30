@@ -15,6 +15,9 @@ if (isset($_GET["page"])){
 if (isset($_GET["submit"])) {
     $start = se($_GET, "start", null, false);
     $end = se($_GET, "end", null, false);
+    if($end){
+        $end = date("Y-m-d 23:59:59", strtotime($end));
+    }
     $type = se($_GET, "type", null, false);
 
     

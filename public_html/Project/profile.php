@@ -16,6 +16,7 @@ if (isset($_POST["save"])) {
     $stmt = $db->prepare("UPDATE Users set email = :email, username = :username, last_name = :last_name, first_name = :first_name where id = :id");
     try {
         $stmt->execute($params);
+        flash("If you changed Username, email, first name, or last name, it was updated successfully!", "Success");
     } catch (Exception $e) {
         if ($e->errorInfo[1] === 1062) {
             //https://www.php.net/manual/en/function.preg-match.php

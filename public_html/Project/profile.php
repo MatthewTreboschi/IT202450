@@ -8,9 +8,8 @@ if (!is_logged_in()) {
 if (isset($_POST["save"])) {
     $email = se($_POST, "email", null, false);
     $username = se($_POST, "username", null, false);
-    echo(implode( " ; ", array_keys($_POST)));
-    $first_name = se($_POST, "first name", null, false);
-    $last_name = se($_POST, "last name", null, false);
+    $first_name = se($_POST, "first_name", null, false);
+    $last_name = se($_POST, "last_name", null, false);
 
     $params = [":email" => $email, ":username" => $username, ":last_name" => $last_name,":first_name" => $first_name, ":id" => get_user_id()];
     $db = getDB();
@@ -88,8 +87,6 @@ if (isset($_POST["save"])) {
 <?php
 $first_name = get_first_name();
 $last_name = get_last_name();
-echo(gettype($first_name));
-echo(gettype($last_name));
 $email = get_user_email();
 $username = get_username();
 ?>

@@ -8,10 +8,12 @@ if (!is_logged_in()) {
 if (isset($_POST["save"])) {
     $email = se($_POST, "email", null, false);
     $username = se($_POST, "username", null, false);
+    $first_name = se($_POST, "first name", null, false);
+    $last_name = se($_POST, "last name", null, false);
 
-    $params = [":email" => $email, ":username" => $username, ":id" => get_user_id()];
+    $params = [":email" => $email, ":username" => $username, ":last_name" => $last_name,":first_name" => $first_name, ":id" => get_user_id()];
     $db = getDB();
-    $stmt = $db->prepare("UPDATE Users set email = :email, username = :username where id = :id");
+    $stmt = $db->prepare("UPDATE Users set email = :email, username = :username, last_name = :last_name, first_name = :first_name where id = :id");
     try {
         $stmt->execute($params);
     } catch (Exception $e) {
@@ -83,6 +85,14 @@ if (isset($_POST["save"])) {
 ?>
 
 <?php
+$first_name = get_first_name();
+$last_name = get_last_name();
+if (!$first_name) {
+    $first_name = "";
+}
+if (!$last_name) {
+    $last_name = "";
+}
 $email = get_user_email();
 $username = get_username();
 ?>
@@ -94,6 +104,14 @@ $username = get_username();
     <div class="mb-3">
         <label for="username">Username</label>
         <input type="text" name="username" id="username" value="<?php se($username); ?>" />
+    </div>
+    <div>
+        <label for="first name">First name</label>
+        <input type="first name" name="first name" id="first name" value="<?php se($first_name); ?>" />
+    </div>
+    <div>
+        <label for="last name">Last name</label>
+        <input type="last name" name="last name" id="last name" value="<?php se($last_name); ?>" />
     </div>
     <!-- DO NOT PRELOAD PASSWORD -->
     <div>Password Reset</div>

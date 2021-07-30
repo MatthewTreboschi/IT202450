@@ -236,6 +236,42 @@ function pagination_filter($newPage) {
     //php.net/manual/en/function.http-build-query.php
     return se(http_build_query($_GET));
 }
+function get_first_name() {
+    $first_name = "";
+    if (is_logged_in()){
+        $id = get_user_id();
+        $db = getDB();
+        $stmt = $db->prepare("SELECT first_name FROM Users WHERE id = :id");
+        try {
+            $stmt->execute([":id" => $id]);
+            $r = $stmt->fetch(PDO::FETCH_ASSOC);
+            if ($r) {
+                $first_name = se($r, "first_name", 0, false);
+            }
+        } catch (PDOException $e) {
+            error_log("Unknown error during balance check: " . var_export($e->errorInfo, true));
+        }
+    }
+    return $first_name;
+}
+function get_last_name() {
+    $last_name = "";
+    if (is_logged_in()){
+        $id = get_user_id();
+        $db = getDB();
+        $stmt = $db->prepare("SELECT last_name FROM Users WHERE id = :id");
+        try {
+            $stmt->execute([":id" => $id]);
+            $r = $stmt->fetch(PDO::FETCH_ASSOC);
+            if ($r) {
+                $last_name = se($r, "last_name", 0, false);
+            }
+        } catch (PDOException $e) {
+            error_log("Unknown error during balance check: " . var_export($e->errorInfo, true));
+        }
+    }
+    return $last_name;
+}
 //flash message system
 function flash($msg = "", $color = "info") {
     $message = ["text" => $msg, "color" => $color];

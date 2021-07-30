@@ -8,6 +8,8 @@ if (!is_logged_in()) {
 if (isset($_POST["save"])) {
     $email = se($_POST, "email", null, false);
     $username = se($_POST, "username", null, false);
+    echo(gettype($_POST["first name"]));
+    echo(gettype($_POST["last name"]));
     $first_name = se($_POST, "first name", null, false);
     $last_name = se($_POST, "last name", null, false);
 

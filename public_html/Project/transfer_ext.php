@@ -11,7 +11,6 @@ if (isset($_POST["submit"])) {
     $amount = trim(se($_POST, "amount", null, false));
     $memo = se($_POST, "memo", null, false);
 
-    $isValid = true;
     if (preg_match("/[\/><\\\"]/", $memo)) {
         flash("None of the following special characters in the memo /><\\\"", "warning");
         $isValid = false;
@@ -20,7 +19,7 @@ if (isset($_POST["submit"])) {
         flash("The to account and from account must be different accounts!", "warning");
         $isValid = false;
     }
-    if (preg_match("/[~`!#$%\^&*+=\-\[\]\\';,{}|\":<>\?]/", $last_name)) {
+    if (preg_match("/[~`!#$%\^&*+=\-\[\]\\';,\/{}|\":<>\?]/", $last_name)) {
         flash("No special characters are allowed in the last name", "warning");
         $isValid = false;
     }
@@ -40,7 +39,10 @@ if (isset($_POST["submit"])) {
         flash("Memo must be less than 100 characters", "warning");
         $isValid = false;
     }
-    if (strlen($last_name)>30)
+    if (strlen($last_name)>30) {
+        flash("last name must be less than or equal to 30 characters", "warning");
+        $isValid = false;
+    }
     if ($isValid) {
         $toAccNum = get_account_num($last_name, $toAccNum);
         if (strlen($toAccNum) == 12) {

@@ -6,17 +6,25 @@ if (!is_logged_in()) {
 if (isset($_POST["submit"])) {
     $isValid = true;
     $toAccNum = se($_POST, "toAccNum", null, false);
+    $last_name = se($_POST, "last_name", null, false);
     $fromAccNum = se($_POST, "fromAccNum", null, false);
     $amount = trim(se($_POST, "amount", null, false));
     $memo = se($_POST, "memo", null, false);
 
-    $isValid = true;
     if (preg_match("/[\/><\\\"]/", $memo)) {
         flash("None of the following special characters in the memo /><\\\"", "warning");
         $isValid = false;
     }
     if ($toAccNum == $fromAccNum) {
         flash("The to account and from account must be different accounts!", "warning");
+        $isValid = false;
+    }
+    if (preg_match("/[~`!#$%\^&*+=\-\[\]\\';,\/{}|\":<>\?]/", $last_name)) {
+        flash("No special characters are allowed in the last name", "warning");
+        $isValid = false;
+    }
+    if (strlen($toAccNum) != 4) {
+        flash("to account number must be 4 digits", "warning");
         $isValid = false;
     }
     if (!isset($amount)) {
@@ -31,8 +39,18 @@ if (isset($_POST["submit"])) {
         flash("Memo must be less than 100 characters", "warning");
         $isValid = false;
     }
+    if (strlen($last_name)>30) {
+        flash("last name must be less than or equal to 30 characters", "warning");
+        $isValid = false;
+    }
     if ($isValid) {
-        transaction($accNum, "000000000000", $amount, "ext-transfer", $memo);
+        $toAccNum = get_account_num($last_name, $toAccNum);
+        if (strlen($toAccNum) == 12) {
+            transaction($toAccNum, $fromAccNum, $amount, "ext-transfer", $memo);
+        }
+        else {
+            flash("error finding account", "warning");
+        }
     }
 }
 ?>
@@ -50,13 +68,12 @@ if (isset($_POST["submit"])) {
             </select>
         </div>
         <div>
-            <label for="toAccNum">To account (must be a different account): </label>
-            <select id="toAccNum" name="toAccNum" required>
-                <?php foreach (get_accounts() as $acc) : ?>
-                    <?php $v = $acc["account_number"]; ?>
-                    <option value ="<?php se($v); ?>"><?php se($v); ?></option>
-                <?php endforeach; ?>
-            </select>
+            <label for="last name">To last name: </label>
+            <input type="text" name="last name" id="last name" maxlength=30 required />
+        </div>
+        <div>
+            <label for="toAccNum">To account (last 4 digits): </label>
+            <input type="text" id="toAccNum" name="toAccNum" maxlength=4 required />
         </div>
         <div>
             <label for="amount">Amount (greater than 0): </label>
@@ -73,6 +90,7 @@ if (isset($_POST["submit"])) {
 </div>
 <script>
     function validate(form) {
+        let last_name = form.last_name.value;
         let toAccNum = form.toAccNum.value;
         let fromAccNum = form.fromAccNum.value;
         let memo = form.memo.value;
@@ -85,6 +103,10 @@ if (isset($_POST["submit"])) {
             isValid = false;
             alert("The to account and from account must be different accounts!");
         }
+        if (toAccNum.length != 4) {
+            isValid = false;
+            alert("The to account must be 4 digits!");
+        }
         if (/[\\/\"<>]/g.test(memo)){
             isValid = false;
             alert("None of the following special characters in the memo /><\\\"");
@@ -96,6 +118,14 @@ if (isset($_POST["submit"])) {
         if (memo.length > 99) {
             isValid = false;
             alert("Memo must be less than 100 characters");
+        }
+        if (last_name.length>30){
+            isValid = false;
+            alert("last name must be 30 or fewer characters");
+        }
+        if (/[~`!#$%\^&*+=\-\[\]\\';,/{}|\\":<>\?]/g.test(last_name)) {
+            isValid = false;
+            alert("No special characters allowed in the last name");
         }
         return isValid;
     }

@@ -134,8 +134,8 @@ Milestone Features:
 	- [x] [07/29/21] User’s profile page should record/show First and Last name
 	- [ ] User will be able to transfer funds to another user’s account
 		- [x] [07/28/21] Form should include a dropdown of the current user’s accounts (as AccountSrc)
-		- [ ] Form should include a field for the destination user’s last name
-		- [ ] Form should include a field for the last 4 digits of the destination user’s account number (to lookup AccountDest)
+		- [x] Form should include a field for the destination user’s last name
+		- [x] Form should include a field for the last 4 digits of the destination user’s account number (to lookup AccountDest)
 		- [x] [07/28/21] Form should include a field for a positive numerical value
 		- [x] [07/28/21] Form should allow the user to record a memo for the transaction
 		- [x] [07/28/21] System shouldn’t let the user transfer more than the balance of their account

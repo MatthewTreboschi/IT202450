@@ -19,7 +19,7 @@ if (!isset($total_pages)) {
                 <?php se($i); ?></a>
         </li>
     <?php endfor; ?>
-    <?php if ( !(($page + 1) > $total_pages) ){ echo($total_pages);?>
+    <?php if ( !(($page + 1) > $total_pages) ) { ?>
     <li class="page-item">
         <a class="page-link" href="?<?php pagination_filter($page + 1); ?>">Next</a>
     </li>

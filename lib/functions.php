@@ -173,19 +173,40 @@ function get_accounts($limit = false){
     }
     return $accounts;
 }
-function get_transactions($accNum = ""){
+function get_transactions($accNum = "", $start="", $end="", $type="", $page=1){
     $transactions = [];
+    $params = [];
     $accID = get_account_id($accNum);
+    $offset = ($page-1)*10;
+    $params[":accID"] = $accID;
     if (is_logged_in()){
+        $query = "SELECT * FROM Transactions WHERE source = :accID";
+        if ($start) {
+            $query .= " AND created > :start";
+            $params[":start"] = $start;
+        }
+        if ($end) {
+            $query .= " AND created < :end";
+            $params[":end"] = $end;
+        }
+        if ($type) {
+            $query .= " AND transaction_type = :type";
+            $params[":type"] = $type;
+        }
+        $query .= " ORDER BY created desc LIMIT :offset , 10";
+        $params[":offset"] = $offset;
         $db = getDB();
-        $stmt = $db->prepare("SELECT * FROM Transactions WHERE source = :accID ORDER BY created desc LIMIT 10 ");
+        $db->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+        $stmt = $db->prepare($query);//"SELECT * FROM Transactions WHERE source = :accID ORDER BY created desc LIMIT 10 ");
         try {
-            $stmt->execute([":accID" => $accID]);
+            
+            $stmt->execute($params);
             $r = $stmt->fetchAll(PDO::FETCH_ASSOC);
             if ($r) {
                 $transactions = $r;
             }
         } catch (PDOException $e) {
+            flash($query);
             error_log("Unknown error during balance check: " . var_export($e->errorInfo, true));
         }
     }
@@ -209,6 +230,80 @@ function get_account_info($accNum = ""){
     }
     return $account;
 
+}
+function pagination_filter($newPage) {
+    $_GET["page"] = $newPage;
+    //php.net/manual/en/function.http-build-query.php
+    return se(http_build_query($_GET));
+}
+function get_first_name() {
+    $first_name = "";
+    if (is_logged_in()){
+        $id = get_user_id();
+        $db = getDB();
+        $stmt = $db->prepare("SELECT first_name FROM Users WHERE id = :id");
+        try {
+            $stmt->execute([":id" => $id]);
+            $r = $stmt->fetch(PDO::FETCH_ASSOC);
+            if ($r) {
+                if (is_string($r["first_name"])){
+                    $first_name = se($r, "first_name", 0, false);
+                }
+                else {
+                    $first_name = "";
+                }
+            }
+        } catch (PDOException $e) {
+            error_log("Unknown error during balance check: " . var_export($e->errorInfo, true));
+        }
+    }
+    return $first_name;
+}
+function get_last_name() {
+    $last_name = "";
+    if (is_logged_in()){
+        $id = get_user_id();
+        $db = getDB();
+        $stmt = $db->prepare("SELECT last_name FROM Users WHERE id = :id");
+        try {
+            $stmt->execute([":id" => $id]);
+            $r = $stmt->fetch(PDO::FETCH_ASSOC);
+            if ($r) {
+                if (is_string($r["last_name"])){
+                    $last_name = se($r, "last_name", 0, false);
+                }
+                else {
+                    $last_name = "";
+                }
+            }
+        } catch (PDOException $e) {
+            error_log("Unknown error during balance check: " . var_export($e->errorInfo, true));
+        }
+    }
+    return $last_name;
+}
+function get_account_num($last_name="", $shortAccNum="") {
+    $account_number = "";
+    $accNumPattern = "%".$shortAccNum;
+    if (is_logged_in()){
+        $db = getDB();
+        $stmt = $db->prepare("SELECT account_number FROM Accounts JOIN Users ON Accounts.user_id = Users.id WHERE last_name = :last_name AND account_number LIKE :accNumPattern");
+        try {
+            $stmt->execute([":last_name" => $last_name, ":accNumPattern" => $accNumPattern]);
+            $r = $stmt->fetch(PDO::FETCH_ASSOC);
+            if ($r) {
+                if (is_string($r["account_number"])){
+                    $account_number = se($r, "account_number", 0, false);
+                }
+                else {
+                    $account_number = "";
+                }
+            }
+        } catch (PDOException $e) {
+            error_log("Unknown error during balance check: " . var_export($e->errorInfo, true));
+        }
+    }
+    return $account_number;
 }
 //flash message system
 function flash($msg = "", $color = "info") {

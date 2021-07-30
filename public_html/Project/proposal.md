@@ -132,16 +132,16 @@ Milestone Features:
 		- [x] [07/29/21] User will be able to filter transactions by type (deposit, withdraw, transfer)
 		- [x] [07/29/21] Transactions should paginate results after the initial 10
 	- [x] [07/29/21] User’s profile page should record/show First and Last name
-	- [ ] User will be able to transfer funds to another user’s account
+	- [x] [07/30/21] User will be able to transfer funds to another user’s account
 		- [x] [07/28/21] Form should include a dropdown of the current user’s accounts (as AccountSrc)
-		- [x] Form should include a field for the destination user’s last name
-		- [x] Form should include a field for the last 4 digits of the destination user’s account number (to lookup AccountDest)
+		- [x] [07/30/21] Form should include a field for the destination user’s last name
+		- [x] [07/30/21] Form should include a field for the last 4 digits of the destination user’s account number (to lookup AccountDest)
 		- [x] [07/28/21] Form should include a field for a positive numerical value
 		- [x] [07/28/21] Form should allow the user to record a memo for the transaction
 		- [x] [07/28/21] System shouldn’t let the user transfer more than the balance of their account
-		- [ ] System will lookup appropriate account based on destination user’s last name and the last 4 digits of the account number
-		- [ ] Show appropriate user-friendly error messages
-		- [ ] Show user-friendly success messages
+		- [x] [07/30/21] System will lookup appropriate account based on destination user’s last name and the last 4 digits of the account number
+		- [x] [07/30/21] Show appropriate user-friendly error messages
+		- [x] [07/30/21] Show user-friendly success messages
 		- [x] [07/28/21] Transaction will be recorded with the type as “ext-transfer”
 		- [x] [07/28/21] Each transaction is recorded as a transaction pair in the Transaction table
 			- [x] [07/28/21] These will reflect in the transaction history page

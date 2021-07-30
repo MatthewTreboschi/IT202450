@@ -20,7 +20,7 @@ if (isset($_POST["submit"])) {
         flash("The to account and from account must be different accounts!", "warning");
         $isValid = false;
     }
-    if (preg_match("/[~`!#$%\^&*+=\-\[\]\\';,/\{\}|\":<>\?]/", $last_name)) {
+    if (preg_match("/[~`!#$%\^&*+=\-\[\]\\';,{}|\":<>\?]/", $last_name)) {
         flash("No special characters are allowed in the last name", "warning");
         $isValid = false;
     }

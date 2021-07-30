@@ -24,7 +24,7 @@ if (isset($_POST["submit"])) {
         flash("Invalid email", "warning");
         $isValid = false;
     }
-    if (preg_match("/><\\\"\'{}[]|?,.-=_+)(*&^%$#@!`~", $username)) {
+    if (preg_match("/[~`!#$%\^&*+=\-\[\]\\';,/{}|\":<>\?]/", $username)) {
         flash("No special characters are allowed in the username", "warning");
         $isValid = false;
     }

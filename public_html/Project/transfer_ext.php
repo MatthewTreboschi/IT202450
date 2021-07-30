@@ -66,11 +66,11 @@ if (isset($_POST["submit"])) {
         </div>
         <div>
             <label for="last name">To last name: </label>
-            <input type="last name" name="last name" id="last name" maxlength=30 value="<?php se($last_name); ?>" required />
+            <input type="text" name="last name" id="last name" maxlength=30 required />
         </div>
         <div>
             <label for="toAccNum">To account (last 4 digits): </label>
-            <input type="number" id="toAccNum" name="toAccNum" maxlength=4 required />
+            <input type="text" id="toAccNum" name="toAccNum" maxlength=4 required />
         </div>
         <div>
             <label for="amount">Amount (greater than 0): </label>

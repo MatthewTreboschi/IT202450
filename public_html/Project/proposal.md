@@ -126,11 +126,11 @@ Milestone Features:
 			- [x] [07/28/21] These will reflect in the transaction history page
 		- [x] [07/28/21] Show appropriate user-friendly error messages
 		- [x] [07/28/21] Show user-friendly success messages
-	- [ ] Transaction History page
+	- [x][07/29/21] Transaction History page
 		- [x] [07/26/21] Will show the latest 10 transactions by default
-		- [ ] User will be able to filter transactions between two dates
-		- [ ] User will be able to filter transactions by type (deposit, withdraw, transfer)
-		- [ ] Transactions should paginate results after the initial 10
+		- [x][07/29/21] User will be able to filter transactions between two dates
+		- [x][07/29/21] User will be able to filter transactions by type (deposit, withdraw, transfer)
+		- [x][07/29/21] Transactions should paginate results after the initial 10
 	- [ ] User’s profile page should record/show First and Last name
 	- [ ] User will be able to transfer funds to another user’s account
 		- [x] [07/28/21] Form should include a dropdown of the current user’s accounts (as AccountSrc)

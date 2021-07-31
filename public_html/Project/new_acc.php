@@ -28,7 +28,7 @@ if (isset($_POST["submit"])) {
             <label for="type">Account type: </label>
             <select id="type" name="type" required>
                 <option value="Checking">Checking</option>
-                <option value="Savings">Checking</option>
+                <option value="Savings">Savings</option>
             </select>
         </div>
         <div>

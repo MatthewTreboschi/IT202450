@@ -48,14 +48,20 @@ function get_user_id() {
     }
     return false;
 }
-function new_acc($deposit, $accType){
+function new_acc($deposit = 5, $accType = "Checking"){
     if (is_logged_in()){
         $userid = get_user_id();
         //letters are in qwerty order. I wanted 1 of each and order didnt matter so i swiped my finger across each row of keys
         $strChars = "1234567890qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM";
         $db = getDB();
         $entered = False;
-        $stmt = $db->prepare("INSERT INTO Accounts (account_number, user_id, account_type) VALUES (:accNum, :userid, :accType)");
+        if ($accType = "Checking") {
+            $query = "INSERT INTO Accounts (account_number, user_id, account_type) VALUES (:accNum, :userid, :accType)";
+        }
+        else {
+            $query = "INSERT INTO Accounts (account_number, user_id, account_type, apy, last_apy) VALUES (:accNum, :userid, :accType, 5.00, CURRENT_TIMESTAMP)";
+        }
+        $stmt = $db->prepare($query);
         while(!$entered){
             try {
                 $accNum = "";
@@ -326,6 +332,7 @@ function interest() {
                 $apy = $account["apy"];
                 $t = $account["dif"]/365; // amount of time its been in years
                 $interest = $balance(1+$apy/12)**(12*$t) - $balance;
+                $interest = round($interest);
                 if ($account["account_type"] == "Savings"){
                     transaction($accNum, "000000000000", $interest, "Interest", "Interest");
                 }

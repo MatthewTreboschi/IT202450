@@ -151,17 +151,17 @@ Milestone Features:
 	- [ ] User can set their profile to be public or private (will need another column in Users table)
 		- [ ] If public, hide email address from other users
 	- [ ] User will be able open a savings account
-		- [ ] System will generate a 12 digit/character account number per the existing rules (see Checking Account above)
-		- [ ] System will associate the account to the user
-		- [ ] Account type will be set as savings
-		- [ ] Will require a minimum deposit of $5 (from the world account)
-			- [ ] Entry will be recorded in the Transaction table in a transaction pair (per notes below)
-			- [ ] Account Balance will be updated based on SUM of BalanceChange of AccountSrc
+		- [x] System will generate a 12 digit/character account number per the existing rules (see Checking Account above)
+		- [x] System will associate the account to the user
+		- [x] Account type will be set as savings
+		- [x] Will require a minimum deposit of $5 (from the world account)
+			- [x] Entry will be recorded in the Transaction table in a transaction pair (per notes below)
+			- [x] Account Balance will be updated based on SUM of BalanceChange of AccountSrc
 		- [ ] System sets an APY that’ll be used to calculate monthly interest based on the balance of the account
 			- [ ] Recommended to create a table for “system properties” and have this value stored there and fetched when needed, this will allow you to have an admin account change the value in the future)
-		- [ ] User will see user-friendly error messages when appropriate
-		- [ ] User will see user-friendly success message when account is created successfully
-			- [ ] Redirect user to their Accounts page
+		- [x] User will see user-friendly error messages when appropriate
+		- [x] User will see user-friendly success message when account is created successfully
+			- [x] Redirect user to their Accounts page
 	- [ ] User will be able to take out a loan
 		- [ ] System will generate a 12 digit/character account number per the existing rules (see Checking Account above)
 		- [ ] Account type will be set as loan

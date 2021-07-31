@@ -120,7 +120,7 @@ function transaction($to = "", $from = "", $amt = 0, $type = "deposit", $memo = 
             if($amt<0){
                 flash("Negative amount for transaction", "Negative amount");
             }
-            else if((!($toBalance+$amt<0) || $to == "000000000000") && (!($fromBalance-$amt<0) || $from == "000000000000")){
+            else if ( !($toBalance<0 && $toBalance+$amt>0) && ( !($fromBalance-$amt<0) || $from == "000000000000" || $type == "Interest") ){
                 $db = getDB();
 
                 $stmt = $db->prepare("INSERT INTO Transactions (source, dest, bal_change, transaction_type, memo, expected_total) VALUES (:from, :to, :amt, :type, :memo, :total)");
@@ -134,6 +134,10 @@ function transaction($to = "", $from = "", $amt = 0, $type = "deposit", $memo = 
 
                 $stmt = $db->prepare("UPDATE Accounts SET balance = (SELECT IFNULL(SUM(bal_change), 0) FROM Transactions WHERE source = :fromAccID) WHERE account_number = :from");
                 $stmt->execute(["fromAccID"=>$fromAccID, ":from"=>$from]);
+
+                if ($toBalance<0 && $toBalance+$amt=0) {
+                    close($toAccID);
+                }
 
                 if($memo != "Initial deposit") {
                     flash("Successful transaction with memo: " . $memo, "Success");
@@ -151,16 +155,18 @@ function transaction($to = "", $from = "", $amt = 0, $type = "deposit", $memo = 
         error_log("Unknown error during transaction: " . var_export($e->errorInfo, true));
     }
 }
-function get_accounts($limit = false){
+function get_accounts($limit = false, $loans = true){
     $accounts = [];
     if (is_logged_in()){
         $db = getDB();
+        $query = "SELECT * FROM Accounts WHERE user_id = :uid";
+        if (!$loans) {
+            $query .= " AND NOT account_type = 'loan'";
+        }
         if ($limit){
-            $stmt = $db->prepare("SELECT * FROM Accounts WHERE user_id = :uid LIMIT 5");
+            $query .= " LIMIT 5";
         }
-        else {
-            $stmt = $db->prepare("SELECT * FROM Accounts WHERE user_id = :uid");
-        }
+        $stmt = $db->prepare($query);
         try {
             $stmt->execute([":uid" => get_user_id()]);
             $r = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -304,6 +310,46 @@ function get_account_num($last_name="", $shortAccNum="") {
         }
     }
     return $account_number;
+}
+function interest() {
+    if (is_logged_in()){
+        $id = get_user_id();
+        $query = "SELECT account_number, account_type, balance, apy, DATEDIFF(CURRENT_TIMESTAMP, last_apy) as dif FROM Accounts WHERE last_apy<DATE_SUB(CURRENT_TIMESTAMP, INTERVAL 1 MONTH) AND user_id=:id";
+        $db = getDB();
+        $stmt = $db->prepare($query);
+        try {
+            $stmt->execute([":id" => $id]);
+            $r = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            foreach ($r as $account):
+                $accNum = $account["account_number"];
+                $balance = $account["balance"];
+                $apy = $account["apy"];
+                $t = $account["dif"]/365; // amount of time its been in years
+                $interest = $balance(1+$apy/12)**(12*$t) - $balance;
+                if ($account["account_type"] == "Savings"){
+                    transaction($accNum, "000000000000", $interest, "Interest", "Interest");
+                }
+                else {
+                    transaction("000000000000", $accNum, $interest, "Interest", "Interest");
+                }
+            endforeach;
+            $query = "UPDATE Accounts SET last_apy = CURRENT_TIMESTAMP WHERE last_apy<DATE_SUB(CURRENT_TIMESTAMP, INTERVAL 1 MONTH) AND user_id=:id";
+            $stmt = $db->prepare($query);
+            $stmt->execute([":id" => $id]);
+        } catch (PDOException $e) {
+            error_log("Unknown error during balance check: " . var_export($e->errorInfo, true));
+        }
+    }
+}
+function close($accNum = "") {
+    $query = "UPDATE Accounts SET closed = TRUE WHERE account_number = :accNum";
+    $db = getDB();
+    $stmt = $db->prepare($query);
+    try {
+        $stmt->execute([":accNum" => $accNum]);
+    } catch (PDOException $e) {
+        error_log("Unknown error during balance check: " . var_export($e->errorInfo, true));
+    }
 }
 //flash message system
 function flash($msg = "", $color = "info") {

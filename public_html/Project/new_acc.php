@@ -22,16 +22,17 @@ if (isset($_POST["submit"])) {
 }
 ?>
 <div>
-    <h1>Minimum deposit of $5</h1>
+    <h1>Minimum deposit of $5 / Minimum loan of $500</h1>
     <form method="POST" onsubmit="return validate(this);">
         <div>
             <label for="type">Account type: </label>
             <select id="type" name="type" required>
                 <option value="Checking">Checking</option>
+                <option value="Savings">Checking</option>
             </select>
         </div>
         <div>
-            <label for="deposit">Deposit ($5 minimum): </label>
+            <label for="deposit">Initial deposit/loan: </label>
             <input type="number" id="deposit" name="deposit" required />
         </div>
         <div>

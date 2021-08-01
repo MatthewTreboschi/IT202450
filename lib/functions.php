@@ -333,7 +333,7 @@ function interest() {
             foreach ($r as $account):
                 $accNum = $account["account_number"];
                 $balance = $account["balance"];
-                $apy = $account["apy"];
+                $apy = $account["apy"]/100;
                 $t = $account["dif"]/365; // amount of time its been in years
                 $interest = $balance(1+$apy/12)**(12*$t) - $balance;
                 $interest = round($interest);
@@ -383,9 +383,11 @@ function new_loan($amt = 500, $accTo) {
                 $entered = False;
             }
         }
+        $toAccID = get_account_id($accTo);
+        $fromAccID = get_account_id($accNum);
         $toBalance = get_balance($accTo);
         try {
-            transaction($accTo, $accNum, $amt, "Internal transfer", "Initial loan", 0, $toBalance);
+            transaction($toAccID, $fromAccID, $amt, "Internal transfer", "Initial loan", 0, $toBalance);
         }
         catch (PDOException $e) {
             error_log("Unknown error during transaction: " . var_export($e->errorInfo, true));

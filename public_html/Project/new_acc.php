@@ -17,7 +17,8 @@ if (isset($_POST["submit"])) {
         $isValid = false;
     }
     if ($isValid) {
-        new_acc($deposit, $accType);
+        //new_acc($deposit, $accType);
+        flash($accType);
     }
 }
 ?>

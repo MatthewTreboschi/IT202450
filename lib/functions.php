@@ -210,7 +210,7 @@ function count_accounts($loans = true){
             $stmt->execute($params);
             $r = $stmt->fetchAll(PDO::FETCH_ASSOC);
             if ($r) {
-                $count = $r;
+                $count = (int)se($r, "COUNT(*)", 0, false);
             }
         } catch (PDOException $e) {
             error_log("Unknown error during balance check: " . var_export($e->errorInfo, true));
@@ -284,7 +284,7 @@ function count_transactions($accNum = "", $start="", $end="", $type=""){
             $stmt->execute($params);
             $r = $stmt->fetch(PDO::FETCH_ASSOC);
             if ($r) {
-                $count = $r;
+                $count = (int)se($r, "COUNT(*)", 0, false);
             }
         } catch (PDOException $e) {
             flash($query);

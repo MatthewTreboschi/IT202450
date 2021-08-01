@@ -7,7 +7,7 @@ $page = 1;
 if (isset($_GET["page"])){
     $page = se($_GET, "page", null, false);
 }
-$page_limit = count_accounts();
+$page_limit = ceil(count_accounts()/5);
 if (isset($_GET["newacc"])) {
     echo("Your new account is: " . $_GET["newacc"]);
 }

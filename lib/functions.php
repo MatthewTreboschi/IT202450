@@ -55,7 +55,7 @@ function new_acc($deposit = 5, $accType){
         $strChars = "1234567890qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM";
         $db = getDB();
         $entered = False;
-        if ($accType = "Checking") {
+        if ($accType == "Checking") {
             $query = "INSERT INTO Accounts (account_number, user_id, account_type) VALUES (:accNum, :userid, :accType)";
         }
         else {

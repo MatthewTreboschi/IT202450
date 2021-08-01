@@ -48,7 +48,7 @@ function get_user_id() {
     }
     return false;
 }
-function new_acc($deposit = 5, $accType){
+function new_acc($deposit = 5, $accType = "Checking"){
     if (is_logged_in()){
         $userid = get_user_id();
         //letters are in qwerty order. I wanted 1 of each and order didnt matter so i swiped my finger across each row of keys
@@ -165,20 +165,25 @@ function transaction($toAccID = "", $fromAccID = "", $amt = 0, $type = "deposit"
     $stmt = $db->prepare("UPDATE Accounts SET balance = (SELECT IFNULL(SUM(bal_change), 0) FROM Transactions WHERE source = :fromAccID) WHERE id = :fromAccID");
     $stmt->execute(["fromAccID"=>$fromAccID]);
 }
-function get_accounts($limit = false, $loans = true){
+function get_accounts($limit = false, $loans = true, $page = 1){
     $accounts = [];
+    $params = [];
+    $offset = ($page-1)*5;
     if (is_logged_in()){
         $db = getDB();
         $query = "SELECT * FROM Accounts WHERE user_id = :uid";
+        $params[":uid"] = get_user_id();
         if (!$loans) {
             $query .= " AND NOT account_type = 'loan'";
         }
         if ($limit){
-            $query .= " LIMIT 5";
+            $query .= " LIMIT :offset, 5";
+            $params[":offset"] = $offset;
         }
+        $db->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
         $stmt = $db->prepare($query);
         try {
-            $stmt->execute([":uid" => get_user_id()]);
+            $stmt->execute($params);
             $r = $stmt->fetchAll(PDO::FETCH_ASSOC);
             if ($r) {
                 $accounts = $r;
@@ -188,6 +193,30 @@ function get_accounts($limit = false, $loans = true){
         }
     }
     return $accounts;
+}
+function count_accounts($loans = true){
+    $count = 0;
+    $params = [];
+    if (is_logged_in()){
+        $db = getDB();
+        $query = "SELECT COUNT(*) FROM Accounts WHERE user_id = :uid";
+        $params[":uid"] = get_user_id();
+        if (!$loans) {
+            $query .= " AND NOT account_type = 'loan'";
+        }
+        $db->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+        $stmt = $db->prepare($query);
+        try {
+            $stmt->execute($params);
+            $r = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            if ($r) {
+                $count = $r;
+            }
+        } catch (PDOException $e) {
+            error_log("Unknown error during balance check: " . var_export($e->errorInfo, true));
+        }
+    }
+    return $count;
 }
 function get_transactions($accNum = "", $start="", $end="", $type="", $page=1){
     $transactions = [];
@@ -213,7 +242,7 @@ function get_transactions($accNum = "", $start="", $end="", $type="", $page=1){
         $params[":offset"] = $offset;
         $db = getDB();
         $db->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
-        $stmt = $db->prepare($query);//"SELECT * FROM Transactions WHERE source = :accID ORDER BY created desc LIMIT 10 ");
+        $stmt = $db->prepare($query);
         try {
             
             $stmt->execute($params);
@@ -227,7 +256,42 @@ function get_transactions($accNum = "", $start="", $end="", $type="", $page=1){
         }
     }
     return $transactions;
-    
+}
+function count_transactions($accNum = "", $start="", $end="", $type=""){
+    $count = [];
+    $params = [];
+    $accID = get_account_id($accNum);
+    $params[":accID"] = $accID;
+    if (is_logged_in()){
+        $query = "SELECT COUNT(*) FROM Transactions WHERE source = :accID";
+        if ($start) {
+            $query .= " AND created > :start";
+            $params[":start"] = $start;
+        }
+        if ($end) {
+            $query .= " AND created < :end";
+            $params[":end"] = $end;
+        }
+        if ($type) {
+            $query .= " AND transaction_type = :type";
+            $params[":type"] = $type;
+        }
+        $db = getDB();
+        $db->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+        $stmt = $db->prepare($query);
+        try {
+            
+            $stmt->execute($params);
+            $r = $stmt->fetch(PDO::FETCH_ASSOC);
+            if ($r) {
+                $count = $r;
+            }
+        } catch (PDOException $e) {
+            flash($query);
+            error_log("Unknown error during balance check: " . var_export($e->errorInfo, true));
+        }
+    }
+    return $count;
 }
 function get_account_info($accNum = ""){
     $account = [];

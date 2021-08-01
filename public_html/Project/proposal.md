@@ -150,29 +150,29 @@ Milestone Features:
 4. Milestone 4:
 	- [ ] User can set their profile to be public or private (will need another column in Users table)
 		- [ ] If public, hide email address from other users
-	- [ ] User will be able open a savings account
+	- [x] User will be able open a savings account
 		- [x] System will generate a 12 digit/character account number per the existing rules (see Checking Account above)
 		- [x] System will associate the account to the user
 		- [x] Account type will be set as savings
 		- [x] Will require a minimum deposit of $5 (from the world account)
 			- [x] Entry will be recorded in the Transaction table in a transaction pair (per notes below)
 			- [x] Account Balance will be updated based on SUM of BalanceChange of AccountSrc
-		- [ ] System sets an APY that’ll be used to calculate monthly interest based on the balance of the account
-			- [ ] Recommended to create a table for “system properties” and have this value stored there and fetched when needed, this will allow you to have an admin account change the value in the future)
+		- [x] System sets an APY that’ll be used to calculate monthly interest based on the balance of the account
+			- [x] Recommended to create a table for “system properties” and have this value stored there and fetched when needed, this will allow you to have an admin account change the value in the future)
 		- [x] User will see user-friendly error messages when appropriate
 		- [x] User will see user-friendly success message when account is created successfully
 			- [x] Redirect user to their Accounts page
 	- [ ] User will be able to take out a loan
-		- [ ] System will generate a 12 digit/character account number per the existing rules (see Checking Account above)
-		- [ ] Account type will be set as loan
-		- [ ] Will require a minimum value of $500
-		- [ ] System will show an APY (before the user submits the form)
-			- [ ] This will be used to add interest to the loan account
+		- [x] System will generate a 12 digit/character account number per the existing rules (see Checking Account above)
+		- [x] Account type will be set as loan
+		- [x] Will require a minimum value of $500
+		- [x] System will show an APY (before the user submits the form)
+			- [x] This will be used to add interest to the loan account
 			- [ ] Recommended to create a table for “system properties” and have this value stored there and fetched when needed, this will allow you to have an admin account change the value in the future)
-		- [ ] Form will have a dropdown of the user’s accounts of which to deposit the money into
+		- [x] Form will have a dropdown of the user’s accounts of which to deposit the money into
 		- [ ] Special Case for Loans:
 			- [ ] Loans will show with a positive balance of what’s required to pay off (although it is a negative since the user owes it)
-			- [ ] User will transfer funds to the loan account to pay it off
+			- [x] User will transfer funds to the loan account to pay it off
 			- [ ] Transfers will continue to be recorded in the Transactions table
 			- [ ] Loan account’s balance will be the balance minus any transfers to this account
 			- [ ] Interest will be applied to the current loan balance and add to it (causing the user to owe more)

@@ -99,7 +99,7 @@ function get_balance($accNum = ""){
     return $balance;
 }
 function get_account_id($accNum = ""){
-    $id = 0;
+    $id = -1;
     if ($accNum){
         $db = getDB();
         $stmt = $db->prepare("SELECT id FROM Accounts WHERE account_number = :accNum");
@@ -116,7 +116,7 @@ function get_account_id($accNum = ""){
     return $id;
 }
 //the "to" account is always the account gaining money, the "from" is losing it
-function transaction($to = "", $from = "", $amt = 0, $type = "deposit", $memo = "No memo"){
+function transaction_prep($to = "", $from = "", $amt = 0, $type = "deposit", $memo = "No memo"){
     try {
         if($to && $from){
             $toBalance = get_balance($to);
@@ -127,19 +127,8 @@ function transaction($to = "", $from = "", $amt = 0, $type = "deposit", $memo = 
                 flash("Negative amount for transaction", "Negative amount");
             }
             else if ( !($toBalance<0 && $toBalance+$amt>0) && ( !($fromBalance-$amt<0) || $from == "000000000000" || $type == "Interest") ){
-                $db = getDB();
-
-                $stmt = $db->prepare("INSERT INTO Transactions (source, dest, bal_change, transaction_type, memo, expected_total) VALUES (:from, :to, :amt, :type, :memo, :total)");
-                $stmt->execute([":from"=>$fromAccID, ":to"=>$toAccID, ":amt" => $amt*-1, ":type"=>$type, ":memo"=>$memo, ":total"=>($fromBalance-$amt)]);
-
-                $stmt = $db->prepare("INSERT INTO Transactions (source, dest, bal_change, transaction_type, memo, expected_total) VALUES (:to, :from, :amt, :type, :memo, :total)");
-                $stmt->execute([":to"=>$toAccID, ":from"=>$fromAccID, ":amt" => $amt, ":type"=>$type, ":memo"=>$memo, ":total"=>($toBalance+$amt)]);
-
-                $stmt = $db->prepare("UPDATE Accounts SET balance = (SELECT IFNULL(SUM(bal_change), 0) FROM Transactions WHERE source = :toAccID) WHERE account_number = :to");
-                $stmt->execute(["toAccID"=>$toAccID, ":to"=>$to]);
-
-                $stmt = $db->prepare("UPDATE Accounts SET balance = (SELECT IFNULL(SUM(bal_change), 0) FROM Transactions WHERE source = :fromAccID) WHERE account_number = :from");
-                $stmt->execute(["fromAccID"=>$fromAccID, ":from"=>$from]);
+                
+                transaction($toAccID, $fromAccID, $amt, $type, $memo);
 
                 if ($toBalance<0 && $toBalance+$amt=0) {
                     close($toAccID);
@@ -160,6 +149,21 @@ function transaction($to = "", $from = "", $amt = 0, $type = "deposit", $memo = 
     catch (PDOException $e) {
         error_log("Unknown error during transaction: " . var_export($e->errorInfo, true));
     }
+}
+function transaction($toAccID = "", $fromAccID = "", $amt = 0, $type = "deposit", $memo = "No memo", $fromBalance = 0, $toBalance = 0) {
+    $db = getDB();
+
+    $stmt = $db->prepare("INSERT INTO Transactions (source, dest, bal_change, transaction_type, memo, expected_total) VALUES (:from, :to, :amt, :type, :memo, :total)");
+    $stmt->execute([":from"=>$fromAccID, ":to"=>$toAccID, ":amt" => $amt*-1, ":type"=>$type, ":memo"=>$memo, ":total"=>($fromBalance-$amt)]);
+
+    $stmt = $db->prepare("INSERT INTO Transactions (source, dest, bal_change, transaction_type, memo, expected_total) VALUES (:to, :from, :amt, :type, :memo, :total)");
+    $stmt->execute([":to"=>$toAccID, ":from"=>$fromAccID, ":amt" => $amt, ":type"=>$type, ":memo"=>$memo, ":total"=>($toBalance+$amt)]);
+
+    $stmt = $db->prepare("UPDATE Accounts SET balance = (SELECT IFNULL(SUM(bal_change), 0) FROM Transactions WHERE source = :toAccID) WHERE id = :toAccID");
+    $stmt->execute(["toAccID"=>$toAccID]);
+
+    $stmt = $db->prepare("UPDATE Accounts SET balance = (SELECT IFNULL(SUM(bal_change), 0) FROM Transactions WHERE source = :fromAccID) WHERE id = :fromAccID");
+    $stmt->execute(["fromAccID"=>$fromAccID]);
 }
 function get_accounts($limit = false, $loans = true){
     $accounts = [];
@@ -356,6 +360,40 @@ function close($accNum = "") {
         $stmt->execute([":accNum" => $accNum]);
     } catch (PDOException $e) {
         error_log("Unknown error during balance check: " . var_export($e->errorInfo, true));
+    }
+}
+function new_loan($amt = 500, $accTo) {
+    if (is_logged_in()){
+        $userid = get_user_id();
+        //letters are in qwerty order. I wanted 1 of each and order didnt matter so i swiped my finger across each row of keys
+        $strChars = "1234567890qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM";
+        $db = getDB();
+        $entered = false;
+        $query = "INSERT INTO Accounts (account_number, user_id, account_type, apy, last_apy) VALUES (:accNum, :userid, 'Loan', 5.00, CURRENT_TIMESTAMP)";
+        $stmt = $db->prepare($query);
+        while(!$entered){
+            try {
+                $accNum = "";
+                for ($i = 0; $i<12; $i++){
+                    $accNum .= substr($strChars, rand(0,61), 1);
+                }
+                $stmt->execute([":accNum" => $accNum, ":userid" => $userid]);
+                $entered = True;
+            } catch (PDOException $e) {
+                $entered = False;
+            }
+        }
+        $toBalance = get_balance($accTo);
+        try {
+            transaction($accTo, $accNum, $amt, "Internal transfer", "Initial loan", 0, $toBalance);
+        }
+        catch (PDOException $e) {
+            error_log("Unknown error during transaction: " . var_export($e->errorInfo, true));
+        }
+        die(header("Location: accounts.php?newacc=".$accNum));
+    }
+    else {
+        flash("You're not logged in!", "Whoops!");
     }
 }
 //flash message system

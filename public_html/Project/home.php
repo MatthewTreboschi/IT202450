@@ -10,6 +10,7 @@ if (!is_logged_in()) {
     <div class="sidenav">
         <a href="profile.php">Profile</a>
         <a href="new_acc.php">Create Account</a>
+        <a href="new_loan.php">Take Loan</a>
         <a href="accounts.php">My Accounts</a>
         <a href="deposit.php">Deposit</a>
         <a href="withdraw.php">Withdrawal</a>

@@ -48,7 +48,7 @@ function get_user_id() {
     }
     return false;
 }
-function new_acc($deposit = 5, $accType = "Checking"){
+function new_acc($deposit = 5, $accType){
     if (is_logged_in()){
         $userid = get_user_id();
         //letters are in qwerty order. I wanted 1 of each and order didnt matter so i swiped my finger across each row of keys

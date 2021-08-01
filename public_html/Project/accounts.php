@@ -21,14 +21,14 @@ if (isset($_POST["accNum"])) {
             <th>Balance</th>
             <th>More Info</th>
         </tr>
-        <?php foreach (get_accounts(true) as $acc) : ?>
+        <?php foreach (get_accounts() as $acc) : ?>
         <!--<tr onclick="<?php echo("pst('" . $acc["account_number"] . "'"); ?>)">-->
         <tr>
             <?php $v = $acc["account_number"]; ?>
             <td value ="<?php se($v); ?>"><?php se($v); ?></td>
             <?php $v = $acc["account_type"]; ?>
             <td value ="<?php se($v); ?>"><?php se($v); ?></td>
-            <?php $v = $acc["balance"]; ?>
+            <?php $v = $acc["balance"]; if ($v<0) $v*=-1; ?>
             <td value ="<?php se($v); ?>"><?php se($v); ?></td>
             <td>
                 <form method="POST">

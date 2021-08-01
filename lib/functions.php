@@ -199,7 +199,7 @@ function count_accounts($loans = true){
     $params = [];
     if (is_logged_in()){
         $db = getDB();
-        $query = "SELECT COUNT(*) FROM Accounts WHERE user_id = :uid";
+        $query = "SELECT COUNT(*) as n FROM Accounts WHERE user_id = :uid";
         $params[":uid"] = get_user_id();
         if (!$loans) {
             $query .= " AND NOT account_type = 'loan'";
@@ -208,9 +208,9 @@ function count_accounts($loans = true){
         $stmt = $db->prepare($query);
         try {
             $stmt->execute($params);
-            $r = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $r = $stmt->fetch(PDO::FETCH_ASSOC);
             if ($r) {
-                $count = (int)se($r, "COUNT(*)", 0, false);
+                $count = (int)se($r, "n", 0, false);
             }
         } catch (PDOException $e) {
             error_log("Unknown error during balance check: " . var_export($e->errorInfo, true));
@@ -263,7 +263,7 @@ function count_transactions($accNum = "", $start="", $end="", $type=""){
     $accID = get_account_id($accNum);
     $params[":accID"] = $accID;
     if (is_logged_in()){
-        $query = "SELECT COUNT(*) FROM Transactions WHERE source = :accID";
+        $query = "SELECT COUNT(*) as n FROM Transactions WHERE source = :accID";
         if ($start) {
             $query .= " AND created > :start";
             $params[":start"] = $start;
@@ -284,7 +284,7 @@ function count_transactions($accNum = "", $start="", $end="", $type=""){
             $stmt->execute($params);
             $r = $stmt->fetch(PDO::FETCH_ASSOC);
             if ($r) {
-                $count = (int)se($r, "COUNT(*)", 0, false);
+                $count = (int)se($r, "n", 0, false);
             }
         } catch (PDOException $e) {
             flash($query);

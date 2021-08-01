@@ -17,13 +17,12 @@ if (isset($_POST["submit"])) {
         $isValid = false;
     }
     if ($isValid) {
-        //new_acc($deposit, $accType);
-        flash($accType);
+        new_acc($deposit, $accType);
     }
 }
 ?>
 <div>
-    <h1>Minimum deposit of $5 / Minimum loan of $500</h1>
+    <h1>Minimum deposit of $5</h1>
     <form method="POST" onsubmit="return validate(this);">
         <div>
             <label for="type">Account type: </label>

@@ -74,7 +74,7 @@ function new_acc($deposit = 5, $accType = "Checking"){
                 $entered = False;
             }
         }
-        transaction($accNum, "000000000000", $deposit, "deposit", "Initial deposit");
+        transaction_prep($accNum, "000000000000", $deposit, "deposit", "Initial deposit");
         die(header("Location: accounts.php?newacc=".$accNum));
     }
     else {

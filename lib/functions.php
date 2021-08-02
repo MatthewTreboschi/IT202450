@@ -171,7 +171,7 @@ function get_accounts($limit = false, $loans = true, $page = 1){
     $offset = ($page-1)*5;
     if (is_logged_in()){
         $db = getDB();
-        $query = "SELECT * FROM Accounts WHERE user_id = :uid";
+        $query = "SELECT * FROM Accounts WHERE user_id = :uid AND closed = false";
         $params[":uid"] = get_user_id();
         if (!$loans) {
             $query .= " AND NOT account_type = 'loan'";
@@ -199,7 +199,7 @@ function count_accounts($loans = true){
     $params = [];
     if (is_logged_in()){
         $db = getDB();
-        $query = "SELECT COUNT(*) as n FROM Accounts WHERE user_id = :uid";
+        $query = "SELECT COUNT(*) as n FROM Accounts WHERE user_id = :uid AND closed = false";
         $params[":uid"] = get_user_id();
         if (!$loans) {
             $query .= " AND NOT account_type = 'loan'";

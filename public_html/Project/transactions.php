@@ -9,6 +9,10 @@ $start = date("Y-m-d", strtotime("-1 month"));
 $end = "";
 $type = "";
 $page = 1;
+if (isset($_POST["close"])) {
+    close($accNum);
+    die(header("Location: accounts.php/?removed=".$accNum));
+}
 if (isset($_GET["page"])){
     $page = se($_GET, "page", null, false);
 }
@@ -86,4 +90,7 @@ $total_pages = ceil(count_transactions()/10);
         <?php /** required $total_pages and $page to be set */ ?>
         <?php include(__DIR__ . "/../../partials/pagination.php"); ?>
     </div>
+    <form method = POST>
+        <button type="submit" name="close" value="close">Close Account</button>
+    </form>
 </div>

@@ -23,18 +23,24 @@ if (isset($_POST["submit"])) {
         $db = getDB();
         //$stmt = $db->prepare("INSERT INTO Users (email, password) VALUES (:email, :password)");
         //$hash = password_hash($password, PASSWORD_BCRYPT);
-        $stmt = $db->prepare("SELECT id, email, IFNULL(username, email) as `username`, password from Users where email = :email or username = :email LIMIT 1");
+        $stmt = $db->prepare("SELECT id, email, active, IFNULL(username, email) as `username`, password from Users where email = :email or username = :email LIMIT 1");
         try {
             $stmt->execute([":email" => $email]);
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
             if ($user) {
                 $upass = $user["password"];
                 if (password_verify($password, $upass)) {
-                    flash("Login successful", "success");
-                    unset($user["password"]);
-                    $_SESSION["user"] = $user;
-                    //echo "<pre>" . var_export($_SESSION, true) . "</pre>";
-                    die(header("Location: home.php"));
+                    if ($user["active"]) {
+                        flash("Login successful", "success");
+                        unset($user["password"]);
+                        $_SESSION["user"] = $user;
+                        set_is_admin();
+                        //echo "<pre>" . var_export($_SESSION, true) . "</pre>";
+                        die(header("Location: home.php"));
+                    }
+                    else {
+                        se("Sorry your account is no longer active");
+                    }
                 } else {
                     se("Passwords don't match");
                 }

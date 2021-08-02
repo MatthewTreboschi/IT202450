@@ -10,7 +10,9 @@ $end = "";
 $type = "";
 $page = 1;
 if (isset($_POST["close"]) && get_balance($accNum) == 0) {
+    //verifies the most recent balance from the db
     close($accNum);
+    unset($_SESSION["accNum"]);
     die(header("Location: accounts.php/?removed=".$accNum));
 }
 else {

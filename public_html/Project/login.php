@@ -30,7 +30,7 @@ if (isset($_POST["submit"])) {
             if ($user) {
                 $upass = $user["password"];
                 if (password_verify($password, $upass)) {
-                    if ($user["active"]) {
+                    if ($user["is_active"]) {
                         flash("Login successful", "success");
                         unset($user["password"]);
                         $_SESSION["user"] = $user;

@@ -24,6 +24,7 @@ if (!is_logged_in()) {
         toggle_active($_POST["active"]);
     }
     if (isset($_POST["control"])) {
+        echo ($_POST["control"]);
         $_SESSION["user"] = json_decode($_POST["control"], true);
     }
     $first = "";

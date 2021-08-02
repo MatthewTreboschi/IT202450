@@ -595,7 +595,7 @@ function toggle_active($id) {
     $db = getDB();
     $stmt = $db->prepare($query);
     try {
-        $stmt->execute([":accNum" => $id]);
+        $stmt->execute([":id" => $id]);
     } catch (PDOException $e) {
         error_log("Unknown error during balance check: " . var_export($e->errorInfo, true));
     }

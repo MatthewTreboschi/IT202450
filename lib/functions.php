@@ -298,7 +298,7 @@ function get_account_info($accNum = ""){
     if (is_logged_in()){
         $user_id = get_user_id();
         $db = getDB();
-        $stmt = $db->prepare("SELECT * FROM Accounts WHERE account_number = :accNum AND user_id =");
+        $stmt = $db->prepare("SELECT * FROM Accounts WHERE account_number = :accNum AND user_id = :user_id");
         try {
             $stmt->execute([":accNum" => $accNum, ":user_id" => $user_id]);
             $r = $stmt->fetch(PDO::FETCH_ASSOC);

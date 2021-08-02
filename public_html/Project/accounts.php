@@ -27,6 +27,7 @@ if (isset($_POST["accNum"])) {
             <th>Account Number</th>
             <th>Account Type</th>
             <th>Balance</th>
+            <th>APY</th>
             <th>More Info</th>
         </tr>
         <?php foreach (get_accounts(true, true, $page) as $acc) : ?>

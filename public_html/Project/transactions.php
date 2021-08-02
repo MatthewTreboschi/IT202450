@@ -15,7 +15,7 @@ if (isset($_POST["close"]) && get_balance($accNum) == 0) {
     $_SESSION["accNum"] = -99;
     die(header("Location: accounts.php?removed=".$accNum));
 }
-else {
+else if (isset($_POST["close"]) && get_balance($accNum) != 0) {
     flash("Balance must be $0 to close an account", "Warning");
 }
 if (isset($_GET["page"])){

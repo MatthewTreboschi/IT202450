@@ -4,6 +4,9 @@ if (!is_logged_in()) {
     die(header("Location: login.php"));
 }
 $accNum = $_SESSION["accNum"];
+if (isset($_POST["Toggle_Privacy"])) {
+    toggle_privacy($accNum);
+}
 $info = get_account_info($accNum);
 $start = date("Y-m-d", strtotime("-1 month"));
 $end = "";
@@ -40,6 +43,7 @@ if ($info["user_id"] == get_user_id()) {
 <h3>Account Type: <?php $accType = $info["account_type"]; se($accType); ?></h3>
 <h3>Balance: <?php $v = $info["balance"]; if ($accType == "loan") $v*=-1; se($v); ?></h3>
 <h3>Opened: <?php se($info["created"]); ?></h3>
+<h3>Privacy: <$php if ($info["created"]=="1") {echo "<b>On</b>";} else {echo "<b>Off</b>";} ?></h3>
 <div>
     <h4>Filter: </h4>
     <form method="GET">
@@ -98,6 +102,9 @@ if ($info["user_id"] == get_user_id()) {
     </div>
     <form method = "POST" onsubmit="return validate(<?php echo get_balance($accNum); ?>);">
         <button type="submit" name="close" value="close">Close Account</button>
+    </form>
+    <form method = "POST">
+        <button type="submit" name="Toggle Privacy" value="Toggle Privacy">Toggle Privacy</button>
     </form>
 </div>
 <?php } else { echo ("This isn't your account!");}?>

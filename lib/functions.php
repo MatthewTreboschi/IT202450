@@ -421,7 +421,7 @@ function interest() {
     }
 }
 function close($accNum = "") {
-    $query = "UPDATE Accounts SET closed = TRUE WHERE account_number = :accNum";
+    $query = "UPDATE Users SET priv = if(priv,0,1) WHERE account_number = :accNum";
     $db = getDB();
     $stmt = $db->prepare($query);
     try {
@@ -464,6 +464,16 @@ function new_loan($amt = 500, $accTo) {
     }
     else {
         flash("You're not logged in!", "Whoops!");
+    }
+}
+function toggle_privacy($accNum) {
+    $query = "UPDATE Accounts SET closed = TRUE WHERE account_number = :accNum";
+    $db = getDB();
+    $stmt = $db->prepare($query);
+    try {
+        $stmt->execute([":accNum" => $accNum]);
+    } catch (PDOException $e) {
+        error_log("Unknown error during balance check: " . var_export($e->errorInfo, true));
     }
 }
 //flash message system

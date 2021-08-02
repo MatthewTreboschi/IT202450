@@ -52,6 +52,9 @@ if (!is_logged_in()) {
             <label for="last">Last Name: </label>
             <input type="text" name="last" id="last" />
         </div>
+        <div>
+            <input type="submit" name="submit" value="Filter" />
+        </div>
     </form>
     <table>
         <tr>
@@ -81,12 +84,12 @@ if (!is_logged_in()) {
             <td value ="<?php se($v); ?>"><?php se($v); ?></td>
             <td>
                 <form method="POST">
-                    <button type="submit" name="control" value="<?php echo(json_encode($user)); ?>">Use This Account</button>
+                    <button type="submit" name="control" value='<?php echo(json_encode($user)); ?>'>Use This Account</button>
                 </form>
             </td>
             <td>
                 <form method="POST">
-                    <button type="submit" name="active" value='<?php echo($user["id"]); ?>'>Toggle active</button>
+                    <button type="submit" name="active" value="<?php echo($user["id"]); ?>">Toggle active</button>
                 </form>
             </td>
         </tr>

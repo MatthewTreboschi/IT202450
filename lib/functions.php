@@ -421,7 +421,7 @@ function interest() {
     }
 }
 function close($accNum = "") {
-    $query = "UPDATE Users SET priv = if(priv,0,1) WHERE account_number = :accNum";
+    $query = "UPDATE Accounts SET closed = TRUE WHERE account_number = :accNum";
     $db = getDB();
     $stmt = $db->prepare($query);
     try {
@@ -467,7 +467,7 @@ function new_loan($amt = 500, $accTo) {
     }
 }
 function toggle_privacy() {
-    $query = "UPDATE Users SET closed = TRUE WHERE id = :id";
+    $query = "UPDATE Users SET priv = if(priv,0,1) WHERE id = :id";
     $id = get_user_id();
     $db = getDB();
     $stmt = $db->prepare($query);

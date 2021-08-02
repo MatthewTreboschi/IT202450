@@ -12,7 +12,7 @@ $page = 1;
 if (isset($_POST["close"]) && get_balance($accNum) == 0) {
     //verifies the most recent balance from the db
     close($accNum);
-    unset($_SESSION["accNum"]);
+    $_SESSION["accNum"] = -99;
     die(header("Location: accounts.php/?removed=".$accNum));
 }
 else {
@@ -31,8 +31,9 @@ if (isset($_GET["submit"])) {
 
     
 }
-$transactions = get_transactions($accNum, $start, $end, $type, $page);
-$total_pages = ceil(count_transactions()/10);
+if ($info["user_id"] == get_user_id()) {
+    $transactions = get_transactions($accNum, $start, $end, $type, $page);
+    $total_pages = ceil(count_transactions()/10);
 ?>
 <h1>This is the transactions page for account <?php echo($accNum)?></h1>
 <h3>Account Number: <?php se($info["account_number"]); ?></h3>
@@ -95,10 +96,11 @@ $total_pages = ceil(count_transactions()/10);
         <?php /** required $total_pages and $page to be set */ ?>
         <?php include(__DIR__ . "/../../partials/pagination.php"); ?>
     </div>
-    <form method = "POST" onsubmit="return validate(<?php echo($info["balance"]); ?>);">
+    <form method = "POST" onsubmit="return validate(<?php echo get_balance($accNum); ?>);">
         <button type="submit" name="close" value="close">Close Account</button>
     </form>
 </div>
+<?php } else { echo ("This isn't your account!");}?>
 <script>
     function validate(balance) {
         isValid=true;

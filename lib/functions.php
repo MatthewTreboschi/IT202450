@@ -296,13 +296,17 @@ function count_transactions($accNum = "", $start="", $end="", $type=""){
 function get_account_info($accNum = ""){
     $account = [];
     if (is_logged_in()){
+        $user_id = get_user_id();
         $db = getDB();
-        $stmt = $db->prepare("SELECT * FROM Accounts WHERE account_number = :accNum");
+        $stmt = $db->prepare("SELECT * FROM Accounts WHERE account_number = :accNum AND user_id =");
         try {
-            $stmt->execute([":accNum" => $accNum]);
+            $stmt->execute([":accNum" => $accNum, ":user_id" => $user_id]);
             $r = $stmt->fetch(PDO::FETCH_ASSOC);
             if ($r) {
                 $account = $r;
+            }
+            else{
+                $account["user_id"] = -99;
             }
         } catch (PDOException $e) {
             error_log("Unknown error during balance check: " . var_export($e->errorInfo, true));

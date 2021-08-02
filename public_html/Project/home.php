@@ -64,6 +64,7 @@ if (!is_logged_in()) {
             <th>Toggle Active</th>
         </tr>
         <?php foreach($users as $user): ?>
+        <tr>
             <?php $v = $user["id"]; ?>
             <td value ="<?php se($v); ?>"><?php se($v); ?></td>
             <?php $v = $user["email"]; ?>
@@ -87,6 +88,7 @@ if (!is_logged_in()) {
                     <button type="submit" name="active" value="<?php echo($user["id"]); ?>">Toggle active</button>
                 </form>
             </td>
+        </tr>
         <?php endforeach;?>
     </table>
     <div>

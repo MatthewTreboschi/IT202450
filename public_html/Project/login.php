@@ -23,7 +23,7 @@ if (isset($_POST["submit"])) {
         $db = getDB();
         //$stmt = $db->prepare("INSERT INTO Users (email, password) VALUES (:email, :password)");
         //$hash = password_hash($password, PASSWORD_BCRYPT);
-        $stmt = $db->prepare("SELECT id, email, active, IFNULL(username, email) as `username`, password from Users where email = :email or username = :email LIMIT 1");
+        $stmt = $db->prepare("SELECT id, email, is_active, IFNULL(username, email) as `username`, password from Users where email = :email or username = :email LIMIT 1");
         try {
             $stmt->execute([":email" => $email]);
             $user = $stmt->fetch(PDO::FETCH_ASSOC);

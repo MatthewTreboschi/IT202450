@@ -43,7 +43,7 @@ if ($info["user_id"] == get_user_id()) {
 <h3>Account Type: <?php $accType = $info["account_type"]; se($accType); ?></h3>
 <h3>Balance: <?php $v = $info["balance"]; if ($accType == "loan") $v*=-1; se($v); ?></h3>
 <h3>Opened: <?php se($info["created"]); ?></h3>
-<h3>Privacy: <$php if ($info["created"]=="1") {echo "<b>On</b>";} else {echo "<b>Off</b>";} ?></h3>
+<h3>Privacy: <?php if ($info["created"]=="1") {echo "<b>On</b>";} else {echo "<b>Off</b>";} ?></h3>
 <div>
     <h4>Filter: </h4>
     <form method="GET">

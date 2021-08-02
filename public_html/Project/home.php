@@ -86,7 +86,7 @@ if (!is_logged_in()) {
             </td>
             <td>
                 <form method="POST">
-                    <button type="submit" name="active" value="<?php echo($user["id"]); ?>">Toggle active</button>
+                    <button type="submit" name="active" value='<?php echo($user["id"]); ?>'>Toggle active</button>
                 </form>
             </td>
         </tr>

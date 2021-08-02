@@ -258,7 +258,7 @@ function get_transactions($accNum = "", $start="", $end="", $type="", $page=1){
     return $transactions;
 }
 function count_transactions($accNum = "", $start="", $end="", $type=""){
-    $count = [];
+    $count = 0;
     $params = [];
     $accID = get_account_id($accNum);
     $params[":accID"] = $accID;

@@ -12,7 +12,8 @@ $page = 1;
 if (isset($_POST["close"]) && get_balance($accNum) == 0) {
     //verifies the most recent balance from the db
     close($accNum);
-    die(header("Location: accounts.php/?removed=".$accNum));
+    $_SESSION["accNum"] = -99;
+    die(header("Location: accounts.php?removed=".$accNum));
 }
 else {
     flash("Balance must be $0 to close an account", "Warning");

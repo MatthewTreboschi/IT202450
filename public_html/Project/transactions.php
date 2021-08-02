@@ -4,9 +4,6 @@ if (!is_logged_in()) {
     die(header("Location: login.php"));
 }
 $accNum = $_SESSION["accNum"];
-if (isset($_POST["Toggle_Privacy"])) {
-    toggle_privacy($accNum);
-}
 $info = get_account_info($accNum);
 $start = date("Y-m-d", strtotime("-1 month"));
 $end = "";
@@ -102,9 +99,6 @@ if ($info["user_id"] == get_user_id()) {
     </div>
     <form method = "POST" onsubmit="return validate(<?php echo get_balance($accNum); ?>);">
         <button type="submit" name="close" value="close">Close Account</button>
-    </form>
-    <form method = "POST">
-        <button type="submit" name="Toggle Privacy" value="Toggle Privacy">Toggle Privacy</button>
     </form>
 </div>
 <?php } else { echo ("This isn't your account!");}?>

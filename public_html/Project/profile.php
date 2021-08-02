@@ -5,6 +5,9 @@ if (!is_logged_in()) {
 }
 ?>
 <?php
+if (isset($_POST["Toggle_Privacy"])) {
+    toggle_privacy();
+}
 if (isset($_POST["save"])) {
     $email = se($_POST, "email", null, false);
     $username = se($_POST, "username", null, false);
@@ -90,7 +93,9 @@ $first_name = get_first_name();
 $last_name = get_last_name();
 $email = get_user_email();
 $username = get_username();
+$priv = get_priv();
 ?>
+<h3>Your privacy is set to <b><?php if ($priv) echo "On"; else echo "Off"; ?></b></h3>
 <form method="POST" onsubmit="return validate(this);">
     <div class="mb-3">
         <label for="email">Email</label>
@@ -123,6 +128,9 @@ $username = get_username();
         <input type="password" name="confirmPassword" id="conp" />
     </div>
     <input type="submit" value="Update Profile" name="save" />
+</form>
+<form method = "POST">
+    <button type="submit" name="Toggle Privacy" value="Toggle Privacy">Toggle Privacy</button>
 </form>
 
 <script>

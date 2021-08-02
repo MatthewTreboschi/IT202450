@@ -466,15 +466,34 @@ function new_loan($amt = 500, $accTo) {
         flash("You're not logged in!", "Whoops!");
     }
 }
-function toggle_privacy($accNum) {
-    $query = "UPDATE Accounts SET closed = TRUE WHERE account_number = :accNum";
+function toggle_privacy() {
+    $query = "UPDATE Users SET closed = TRUE WHERE id = :id";
+    $id = get_user_id();
     $db = getDB();
     $stmt = $db->prepare($query);
     try {
-        $stmt->execute([":accNum" => $accNum]);
+        $stmt->execute([":id" => $id]);
     } catch (PDOException $e) {
         error_log("Unknown error during balance check: " . var_export($e->errorInfo, true));
     }
+}
+function get_priv() {
+    $priv = "";
+    if (is_logged_in()){
+        $id = get_user_id();
+        $db = getDB();
+        $stmt = $db->prepare("SELECT priv FROM Users WHERE id = :id");
+        try {
+            $stmt->execute([":id" => $id]);
+            $r = $stmt->fetch(PDO::FETCH_ASSOC);
+            if ($r) {
+                $priv = se($r, "priv", 0, false);
+            }
+        } catch (PDOException $e) {
+            error_log("Unknown error during balance check: " . var_export($e->errorInfo, true));
+        }
+    }
+    return $priv;
 }
 //flash message system
 function flash($msg = "", $color = "info") {

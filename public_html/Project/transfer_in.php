@@ -43,7 +43,7 @@ if (isset($_POST["submit"])) {
         <div>
             <label for="fromAccNum">From account: </label>
             <select id="fromAccNum" name="fromAccNum" required>
-                <?php foreach (get_accounts() as $acc) : ?>
+                <?php foreach (get_accounts($loans = false) as $acc) : ?>
                     <?php $v = $acc["account_number"]; ?>
                     <option value ="<?php se($v); ?>"><?php se($v); ?></option>
                 <?php endforeach; ?>

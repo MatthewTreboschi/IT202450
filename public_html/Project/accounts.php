@@ -27,6 +27,7 @@ if (isset($_POST["accNum"])) {
             <th>Account Number</th>
             <th>Account Type</th>
             <th>Balance</th>
+            <th>APY</th>
             <th>More Info</th>
         </tr>
         <?php foreach (get_accounts(true, true, $page) as $acc) : ?>
@@ -38,6 +39,8 @@ if (isset($_POST["accNum"])) {
             <td value ="<?php se($v); ?>"><?php se($v); ?></td>
             <?php $v = $acc["balance"]; if ($v<0) $v*=-1; ?>
             <td value ="<?php se($v); ?>"><?php se($v); ?></td>
+            <?php $v = $acc["apy"]; ?>
+            <td value ="<?php se($v); ?>"><?php if ($v==0.0) {echo"-";} else {se($v);} ?></td>
             <td>
                 <form method="POST">
                     <button type="submit" name="accNum" value="<?php echo($acc["account_number"]); ?>">More info</button>

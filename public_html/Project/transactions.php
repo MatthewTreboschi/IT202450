@@ -43,6 +43,8 @@ if ($info["user_id"] == get_user_id()) {
 <h3>Account Type: <?php $accType = $info["account_type"]; se($accType); ?></h3>
 <h3>Balance: <?php $v = $info["balance"]; if ($accType == "loan") $v*=-1; se($v); ?></h3>
 <h3>Opened: <?php se($info["created"]); ?></h3>
+<?php $v = $info["apy"]; ?>
+<h3>APY: <?php if ($v==0.0) {echo"-";} else {se($v);} ?></h3>
 <?php if ($info["frozen"]=="1") { ?>
     <h3><b>This account is frozen!</b></h3>
 <?php } ?>

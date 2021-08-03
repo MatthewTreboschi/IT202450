@@ -11,6 +11,9 @@ $total_pages = ceil(count_accounts()/5);
 if (isset($_GET["newacc"])) {
     echo("Your new account is: " . $_GET["newacc"]);
 }
+if (isset($_GET["removed"])) {
+    echo("You closed the account: " . $_GET["removed"]);
+}
 if (isset($_POST["accNum"])) {
     $accNum = se($_POST, "accNum", null, false);
     $_SESSION["accNum"] = $accNum;

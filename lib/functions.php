@@ -48,6 +48,23 @@ function get_user_id() {
     }
     return false;
 }
+function set_is_admin() {
+    $query = "SELECT Roles.name FROM Users JOIN UserRoles ON Users.id = UserRoles.user_id JOIN Roles ON UserRoles.role_id = Roles.id WHERE user_id = :uid";
+    $db = getDB();
+    try {
+        $stmt = $db->prepare($query);
+        $stmt->execute([":uid" => get_user_id()]);
+        $r = $stmt->fetch(PDO::FETCH_ASSOC);
+        if ($r) {
+            $_SESSION["admin"] = true;
+        }
+        else {
+            $_SESSION["admin"] = false;
+        }
+    } catch (PDOException $e) {
+        error_log("Unknown error during balance check: " . var_export($e->errorInfo, true));
+    }
+}
 function new_acc($deposit = 5, $accType = "Checking"){
     if (is_logged_in()){
         $userid = get_user_id();
@@ -165,20 +182,93 @@ function transaction($toAccID = "", $fromAccID = "", $amt = 0, $type = "deposit"
     $stmt = $db->prepare("UPDATE Accounts SET balance = (SELECT IFNULL(SUM(bal_change), 0) FROM Transactions WHERE source = :fromAccID) WHERE id = :fromAccID");
     $stmt->execute(["fromAccID"=>$fromAccID]);
 }
-function get_accounts($limit = false, $loans = true, $page = 1){
+function get_users($first="", $last="", $page=1) {
+    $users = [];
+    $params = [];
+    $offset = ($page-1)*10;
+    if (is_logged_in()){
+        $query = "SELECT * FROM Users WHERE TRUE";
+        if ($first) {
+            $query .= " AND first_name = :first";
+            $params[":first"] = $first;
+        }
+        if ($last) {
+            $query .= " AND last_name = :last";
+            $params[":last"] = $last;
+        }
+        $query .= " ORDER BY created desc LIMIT :offset , 10";
+        $params[":offset"] = $offset;
+        $db = getDB();
+        $db->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+        $stmt = $db->prepare($query);
+        try {
+            
+            $stmt->execute($params);
+            $r = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            if ($r) {
+                $users = $r;
+            }
+        } catch (PDOException $e) {
+            flash($query);
+            error_log("Unknown error during balance check: " . var_export($e->errorInfo, true));
+        }
+    }
+    return $users;
+}
+function count_users($first="", $last="") {
+    $count = 0;
+    $params = [];
+    if (is_logged_in()){
+        $query = "SELECT count(*) as n FROM Users WHERE TRUE";
+        if ($first) {
+            $query .= " AND first_name = :first";
+            $params[":first"] = $first;
+        }
+        if ($last) {
+            $query .= " AND last_name = :last";
+            $params[":last"] = $last;
+        }
+        $db = getDB();
+        $db->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+        $stmt = $db->prepare($query);
+        try {
+            
+            $stmt->execute($params);
+            $r = $stmt->fetch(PDO::FETCH_ASSOC);
+            if ($r) {
+                $count = (int)se($r, "n", 0, false);;
+            }
+        } catch (PDOException $e) {
+            flash($query);
+            error_log("Unknown error during balance check: " . var_export($e->errorInfo, true));
+        }
+    }
+    return $count;
+}
+function get_accounts($limit = false, $loans = true, $page = 1, $search = "", $all=false){
     $accounts = [];
     $params = [];
     $offset = ($page-1)*5;
     if (is_logged_in()){
         $db = getDB();
-        $query = "SELECT * FROM Accounts WHERE user_id = :uid AND closed = false";
-        $params[":uid"] = get_user_id();
+        $query = "SELECT * FROM Accounts WHERE true";
+        if (!$all or !$_SESSION["admin"]) {
+            $query .= " AND user_id = :uid AND closed = false";
+            $params[":uid"] = get_user_id();
+        }
+        if ($search) {
+            $query .= " AND account_number LIKE :search";
+            $params[":search"] = $search;
+        }
         if (!$loans) {
             $query .= " AND NOT account_type = 'loan'";
         }
         if ($limit){
             $query .= " LIMIT :offset, 5";
             $params[":offset"] = $offset;
+        }
+        else {
+            $query .= " AND frozen = false";
         }
         $db->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
         $stmt = $db->prepare($query);
@@ -194,13 +284,20 @@ function get_accounts($limit = false, $loans = true, $page = 1){
     }
     return $accounts;
 }
-function count_accounts($loans = true){
+function count_accounts($loans = true, $search = "", $all=false){
     $count = 0;
     $params = [];
     if (is_logged_in()){
         $db = getDB();
-        $query = "SELECT COUNT(*) as n FROM Accounts WHERE user_id = :uid AND closed = false";
-        $params[":uid"] = get_user_id();
+        $query = "SELECT COUNT(*) as n FROM Accounts WHERE true";
+        if (!$all or !$_SESSION["admin"]) {
+            $query .= " AND user_id = :uid AND closed = false";
+            $params[":uid"] = get_user_id();
+        }
+        if ($search) {
+            $query .= " AND account_number LIKE :search";
+            $params[":search"] = $search;
+        }
         if (!$loans) {
             $query .= " AND NOT account_type = 'loan'";
         }
@@ -370,8 +467,10 @@ function get_account_num($last_name="", $shortAccNum="") {
     $account_number = "";
     $accNumPattern = "%".$shortAccNum;
     if (is_logged_in()){
+        $query = "SELECT account_number FROM Accounts JOIN Users ON Accounts.user_id = Users.id ";
+        $query .= "WHERE last_name = :last_name AND account_number LIKE :accNumPattern AND closed = false AND frozen = false";
         $db = getDB();
-        $stmt = $db->prepare("SELECT account_number FROM Accounts JOIN Users ON Accounts.user_id = Users.id WHERE last_name = :last_name AND account_number LIKE :accNumPattern");
+        $stmt = $db->prepare($query);
         try {
             $stmt->execute([":last_name" => $last_name, ":accNumPattern" => $accNumPattern]);
             $r = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -464,6 +563,55 @@ function new_loan($amt = 500, $accTo) {
     }
     else {
         flash("You're not logged in!", "Whoops!");
+    }
+}
+function toggle_privacy() {
+    $query = "UPDATE Users SET priv = if(priv,0,1) WHERE id = :id";
+    $id = get_user_id();
+    $db = getDB();
+    $stmt = $db->prepare($query);
+    try {
+        $stmt->execute([":id" => $id]);
+    } catch (PDOException $e) {
+        error_log("Unknown error during balance check: " . var_export($e->errorInfo, true));
+    }
+}
+function get_priv() {
+    $priv = "";
+    if (is_logged_in()){
+        $id = get_user_id();
+        $db = getDB();
+        $stmt = $db->prepare("SELECT priv FROM Users WHERE id = :id");
+        try {
+            $stmt->execute([":id" => $id]);
+            $r = $stmt->fetch(PDO::FETCH_ASSOC);
+            if ($r) {
+                $priv = se($r, "priv", 0, false);
+            }
+        } catch (PDOException $e) {
+            error_log("Unknown error during balance check: " . var_export($e->errorInfo, true));
+        }
+    }
+    return $priv;
+}
+function toggle_freeze($accNum) {
+    $query = "UPDATE Accounts SET frozen = if(frozen,0,1) WHERE account_number = :accNum";
+    $db = getDB();
+    $stmt = $db->prepare($query);
+    try {
+        $stmt->execute([":accNum" => $accNum]);
+    } catch (PDOException $e) {
+        error_log("Unknown error during balance check: " . var_export($e->errorInfo, true));
+    }
+}
+function toggle_active($id) {
+    $query = "UPDATE Users SET is_active = if(is_active,0,1) WHERE id = :id";
+    $db = getDB();
+    $stmt = $db->prepare($query);
+    try {
+        $stmt->execute([":id" => $id]);
+    } catch (PDOException $e) {
+        error_log("Unknown error during balance check: " . var_export($e->errorInfo, true));
     }
 }
 //flash message system

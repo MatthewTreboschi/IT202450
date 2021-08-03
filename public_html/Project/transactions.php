@@ -4,6 +4,9 @@ if (!is_logged_in()) {
     die(header("Location: login.php"));
 }
 $accNum = $_SESSION["accNum"];
+if (isset($_POST["freeze"])) {
+    toggle_freeze($accNum);
+}
 $info = get_account_info($accNum);
 $start = date("Y-m-d", strtotime("-1 month"));
 $end = "";
@@ -40,6 +43,11 @@ if ($info["user_id"] == get_user_id()) {
 <h3>Account Type: <?php $accType = $info["account_type"]; se($accType); ?></h3>
 <h3>Balance: <?php $v = $info["balance"]; if ($accType == "loan") $v*=-1; se($v); ?></h3>
 <h3>Opened: <?php se($info["created"]); ?></h3>
+<?php $v = $info["apy"]; ?>
+<h3>APY: <?php if ($v==0.0) {echo"-";} else {se($v);} ?></h3>
+<?php if ($info["frozen"]=="1") { ?>
+    <h3><b>This account is frozen!</b></h3>
+<?php } ?>
 <div>
     <h4>Filter: </h4>
     <form method="GET">
@@ -99,6 +107,11 @@ if ($info["user_id"] == get_user_id()) {
     <form method = "POST" onsubmit="return validate(<?php echo get_balance($accNum); ?>);">
         <button type="submit" name="close" value="close">Close Account</button>
     </form>
+    <?php if ($_SESSION["admin"]) { ?>
+        <form method = "POST">
+            <button type="submit" name="freeze" value="freeze">Toggle Freeze</button>
+        </form>
+    <?php } ?>
 </div>
 <?php } else { echo ("This isn't your account!");}?>
 <script>

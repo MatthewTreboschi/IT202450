@@ -24,7 +24,6 @@ tr:active {
   
 .sidenav {
     width: 180px;
-    position: fixed;
     z-index: 1;
     top: 200px;
     left: 10px;
@@ -34,7 +33,6 @@ tr:active {
 }
 
 #navig {
-    background-color: #ff8533;
     border-top: 2px solid #00264d;
     border-bottom: 2px solid #00264d;
     display: inline-block;

@@ -20,6 +20,7 @@ require_once(__DIR__ . "/../lib/functions.php");
 <style>
 <?php require_once(__DIR__ . "/../partials/style.css"); ?>
 </style>
+<div style="background-color: #ff8533">
 <p id="navig">
 <?php if (is_logged_in()) : ?>
     <a href="home.php">Home</a>
@@ -32,3 +33,4 @@ require_once(__DIR__ . "/../lib/functions.php");
     <a href="logout.php">Logout</a>
 <?php endif; ?>
 </p>
+</div>

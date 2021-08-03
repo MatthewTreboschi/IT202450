@@ -7,7 +7,6 @@ $page = 1;
 if (isset($_GET["page"])){
     $page = se($_GET, "page", null, false);
 }
-$total_pages = ceil(count_accounts()/5);
 if (isset($_GET["newacc"])) {
     echo("Your new account is: " . $_GET["newacc"]);
 }
@@ -23,9 +22,11 @@ $search = "";
 $all = false;
 if (isset($_POST["search"])) {
     $search = "%" . $_POST["search"] . "%";
+    echo($search);
     $all = true;
 }
 $accounts = get_accounts(true, true, $page, $search, $all);
+$total_pages = ceil(count_accounts()/5);
 ?>
 <h1>This is the accounts page</h1>
 <?php if ($_SESSION["admin"]) { ?>
@@ -33,7 +34,7 @@ $accounts = get_accounts(true, true, $page, $search, $all);
     <h5>This form will allow you to search for anyone's account by account number</h5>
     <form method="POST">
         <div>
-            <label for="search">Confirm Password</label>
+            <label for="search">Search</label>
             <input type="text" name="search" id="search" />
         </div>
         <div>

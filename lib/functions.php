@@ -251,9 +251,9 @@ function get_accounts($limit = false, $loans = true, $page = 1, $search = "", $a
     $offset = ($page-1)*5;
     if (is_logged_in()){
         $db = getDB();
-        $query = "SELECT * FROM Accounts WHERE closed = false";
+        $query = "SELECT * FROM Accounts WHERE true";
         if (!$all or !$_SESSION["admin"]) {
-            $query .= " AND user_id = :uid";
+            $query .= " AND user_id = :uid AND closed = false";
             $params[":uid"] = get_user_id();
         }
         if ($search) {
@@ -283,13 +283,19 @@ function get_accounts($limit = false, $loans = true, $page = 1, $search = "", $a
     }
     return $accounts;
 }
-function count_accounts($loans = true){
+function count_accounts($loans = true, $search = "", $all=false){
     $count = 0;
     $params = [];
     if (is_logged_in()){
         $db = getDB();
-        $query = "SELECT COUNT(*) as n FROM Accounts WHERE user_id = :uid AND closed = false";
-        $params[":uid"] = get_user_id();
+        $query = "SELECT COUNT(*) as n FROM Accounts WHERE true";
+        if (!$all or !$_SESSION["admin"]) {
+            $query .= " AND user_id = :uid AND closed = false";
+            $params[":uid"] = get_user_id();
+        }
+        if ($search) {
+            $query .= " AND account_number LIKE :search";
+        }
         if (!$loans) {
             $query .= " AND NOT account_type = 'loan'";
         }

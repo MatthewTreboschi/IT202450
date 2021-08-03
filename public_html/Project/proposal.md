@@ -132,16 +132,16 @@ Milestone Features:
 		- [x] [07/29/21] User will be able to filter transactions by type (deposit, withdraw, transfer)
 		- [x] [07/29/21] Transactions should paginate results after the initial 10
 	- [x] [07/29/21] User’s profile page should record/show First and Last name
-	- [ ] User will be able to transfer funds to another user’s account
+	- [x] [07/30/21] User will be able to transfer funds to another user’s account
 		- [x] [07/28/21] Form should include a dropdown of the current user’s accounts (as AccountSrc)
-		- [x] Form should include a field for the destination user’s last name
-		- [x] Form should include a field for the last 4 digits of the destination user’s account number (to lookup AccountDest)
+		- [x] [07/30/21] Form should include a field for the destination user’s last name
+		- [x] [07/30/21] Form should include a field for the last 4 digits of the destination user’s account number (to lookup AccountDest)
 		- [x] [07/28/21] Form should include a field for a positive numerical value
 		- [x] [07/28/21] Form should allow the user to record a memo for the transaction
 		- [x] [07/28/21] System shouldn’t let the user transfer more than the balance of their account
-		- [ ] System will lookup appropriate account based on destination user’s last name and the last 4 digits of the account number
-		- [ ] Show appropriate user-friendly error messages
-		- [ ] Show user-friendly success messages
+		- [x] [07/30/21] System will lookup appropriate account based on destination user’s last name and the last 4 digits of the account number
+		- [x] [07/30/21] Show appropriate user-friendly error messages
+		- [x] [07/30/21] Show user-friendly success messages
 		- [x] [07/28/21] Transaction will be recorded with the type as “ext-transfer”
 		- [x] [07/28/21] Each transaction is recorded as a transaction pair in the Transaction table
 			- [x] [07/28/21] These will reflect in the transaction history page
@@ -150,29 +150,29 @@ Milestone Features:
 4. Milestone 4:
 	- [ ] User can set their profile to be public or private (will need another column in Users table)
 		- [ ] If public, hide email address from other users
-	- [ ] User will be able open a savings account
-		- [ ] System will generate a 12 digit/character account number per the existing rules (see Checking Account above)
-		- [ ] System will associate the account to the user
-		- [ ] Account type will be set as savings
-		- [ ] Will require a minimum deposit of $5 (from the world account)
-			- [ ] Entry will be recorded in the Transaction table in a transaction pair (per notes below)
-			- [ ] Account Balance will be updated based on SUM of BalanceChange of AccountSrc
-		- [ ] System sets an APY that’ll be used to calculate monthly interest based on the balance of the account
-			- [ ] Recommended to create a table for “system properties” and have this value stored there and fetched when needed, this will allow you to have an admin account change the value in the future)
-		- [ ] User will see user-friendly error messages when appropriate
-		- [ ] User will see user-friendly success message when account is created successfully
-			- [ ] Redirect user to their Accounts page
+	- [x] User will be able open a savings account
+		- [x] System will generate a 12 digit/character account number per the existing rules (see Checking Account above)
+		- [x] System will associate the account to the user
+		- [x] Account type will be set as savings
+		- [x] Will require a minimum deposit of $5 (from the world account)
+			- [x] Entry will be recorded in the Transaction table in a transaction pair (per notes below)
+			- [x] Account Balance will be updated based on SUM of BalanceChange of AccountSrc
+		- [x] System sets an APY that’ll be used to calculate monthly interest based on the balance of the account
+			- [x] Recommended to create a table for “system properties” and have this value stored there and fetched when needed, this will allow you to have an admin account change the value in the future)
+		- [x] User will see user-friendly error messages when appropriate
+		- [x] User will see user-friendly success message when account is created successfully
+			- [x] Redirect user to their Accounts page
 	- [ ] User will be able to take out a loan
-		- [ ] System will generate a 12 digit/character account number per the existing rules (see Checking Account above)
-		- [ ] Account type will be set as loan
-		- [ ] Will require a minimum value of $500
-		- [ ] System will show an APY (before the user submits the form)
-			- [ ] This will be used to add interest to the loan account
+		- [x] System will generate a 12 digit/character account number per the existing rules (see Checking Account above)
+		- [x] Account type will be set as loan
+		- [x] Will require a minimum value of $500
+		- [x] System will show an APY (before the user submits the form)
+			- [x] This will be used to add interest to the loan account
 			- [ ] Recommended to create a table for “system properties” and have this value stored there and fetched when needed, this will allow you to have an admin account change the value in the future)
-		- [ ] Form will have a dropdown of the user’s accounts of which to deposit the money into
+		- [x] Form will have a dropdown of the user’s accounts of which to deposit the money into
 		- [ ] Special Case for Loans:
 			- [ ] Loans will show with a positive balance of what’s required to pay off (although it is a negative since the user owes it)
-			- [ ] User will transfer funds to the loan account to pay it off
+			- [x] User will transfer funds to the loan account to pay it off
 			- [ ] Transfers will continue to be recorded in the Transactions table
 			- [ ] Loan account’s balance will be the balance minus any transfers to this account
 			- [ ] Interest will be applied to the current loan balance and add to it (causing the user to owe more)

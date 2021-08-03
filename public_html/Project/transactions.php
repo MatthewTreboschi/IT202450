@@ -9,6 +9,15 @@ $start = date("Y-m-d", strtotime("-1 month"));
 $end = "";
 $type = "";
 $page = 1;
+if (isset($_POST["close"]) && get_balance($accNum) == 0) {
+    //verifies the most recent balance from the db
+    close($accNum);
+    $_SESSION["accNum"] = -99;
+    die(header("Location: accounts.php?removed=".$accNum));
+}
+else if (isset($_POST["close"]) && get_balance($accNum) != 0) {
+    flash("Balance must be $0 to close an account", "Warning");
+}
 if (isset($_GET["page"])){
     $page = se($_GET, "page", null, false);
 }
@@ -22,14 +31,16 @@ if (isset($_GET["submit"])) {
 
     
 }
-$transactions = get_transactions($accNum, $start, $end, $type, $page);
-$total_pages = floor(count($transactions)/10)+1;
+if ($info["user_id"] == get_user_id()) {
+    $transactions = get_transactions($accNum, $start, $end, $type, $page);
+    $total_pages = ceil(count_transactions()/10);
 ?>
 <h1>This is the transactions page for account <?php echo($accNum)?></h1>
 <h3>Account Number: <?php se($info["account_number"]); ?></h3>
-<h3>Account Type: <?php se($info["account_type"]); ?></h3>
-<h3>Balance: <?php se($info["balance"]); ?></h3>
+<h3>Account Type: <?php $accType = $info["account_type"]; se($accType); ?></h3>
+<h3>Balance: <?php $v = $info["balance"]; if ($accType == "loan") $v*=-1; se($v); ?></h3>
 <h3>Opened: <?php se($info["created"]); ?></h3>
+<h3>Privacy: <?php if ($info["created"]=="1") {echo "<b>On</b>";} else {echo "<b>Off</b>";} ?></h3>
 <div>
     <h4>Filter: </h4>
     <form method="GET">
@@ -71,11 +82,11 @@ $total_pages = floor(count($transactions)/10)+1;
             <td value ="<?php se($v); ?>"><?php se($v); ?></td>
             <?php $v = $transaction["transaction_type"]; ?>
             <td value ="<?php se($v); ?>"><?php se($v); ?></td>
-            <?php $v = $transaction["bal_change"]; ?>
+            <?php $v = $transaction["bal_change"]; if ($accType == "loan") $v*=-1; ?>
             <td value ="<?php se($v); ?>"><?php se($v); ?></td>
             <?php $v = $transaction["memo"]; ?>
             <td value ="<?php se($v); ?>"><?php se($v); ?></td>
-            <?php $v = $transaction["expected_total"]; ?>
+            <?php $v = $transaction["expected_total"]; if ($accType == "loan") $v*=-1; ?>
             <td value ="<?php se($v); ?>"><?php se($v); ?></td>
             <?php $v = $transaction["created"]; ?>
             <td value ="<?php se($v); ?>"><?php se($v); ?></td>
@@ -86,4 +97,18 @@ $total_pages = floor(count($transactions)/10)+1;
         <?php /** required $total_pages and $page to be set */ ?>
         <?php include(__DIR__ . "/../../partials/pagination.php"); ?>
     </div>
+    <form method = "POST" onsubmit="return validate(<?php echo get_balance($accNum); ?>);">
+        <button type="submit" name="close" value="close">Close Account</button>
+    </form>
 </div>
+<?php } else { echo ("This isn't your account!");}?>
+<script>
+    function validate(balance) {
+        isValid=true;
+        if (balance != '0') {
+            alert("Balance must be 0 to close an account!")
+            isValid = false;
+        }
+        return isValid;
+    }
+</script>

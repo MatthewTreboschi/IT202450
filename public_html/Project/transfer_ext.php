@@ -46,7 +46,7 @@ if (isset($_POST["submit"])) {
     if ($isValid) {
         $toAccNum = get_account_num($last_name, $toAccNum);
         if (strlen($toAccNum) == 12) {
-            transaction($toAccNum, $fromAccNum, $amount, "ext-transfer", $memo);
+            transaction_prep($toAccNum, $fromAccNum, $amount, "ext-transfer", $memo);
         }
         else {
             flash("error finding account", "warning");
@@ -61,7 +61,7 @@ if (isset($_POST["submit"])) {
         <div>
             <label for="fromAccNum">From account: </label>
             <select id="fromAccNum" name="fromAccNum" required>
-                <?php foreach (get_accounts() as $acc) : ?>
+                <?php foreach (get_accounts($loans = false) as $acc) : ?>
                     <?php $v = $acc["account_number"]; ?>
                     <option value ="<?php se($v); ?>"><?php se($v); ?></option>
                 <?php endforeach; ?>

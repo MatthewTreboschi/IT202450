@@ -7,7 +7,6 @@ $page = 1;
 if (isset($_GET["page"])){
     $page = se($_GET, "page", null, false);
 }
-$total_pages = ceil(count_accounts()/5);
 if (isset($_GET["newacc"])) {
     echo("Your new account is: " . $_GET["newacc"]);
 }
@@ -19,8 +18,43 @@ if (isset($_POST["accNum"])) {
     $_SESSION["accNum"] = $accNum;
     die(header("Location: transactions.php"));
 }
+$search = "";
+$all = false;
+if (isset($_POST["search"])) {
+    $search = "%" . $_POST["search"] . "%";
+    if ($_POST["accs"]=="all"){
+        $all = true;
+    }
+}
+$accounts = get_accounts(true, true, $page, $search, $all);
+$total_pages = ceil(count_accounts()/5);
 ?>
+<style>
+tr:active {
+    background-color: #777777
+}
+</style>
 <h1>This is the accounts page</h1>
+<?php if ($_SESSION["admin"]) { ?>
+    <h5>By default, these are the accounts of the user you are controlling</h5>
+    <h5>This form will allow you to search for anyone's account by account number</h5>
+    <form method="POST">
+        <div>
+            <label for="search">Search</label>
+            <input type="text" name="search" id="search" />
+        </div>
+        <div>
+            <label for="accs">Search All accounts or just this user's?</label>
+            <select name="accs" id="accs" >
+                <option value="this">This user's</option>
+                <option value="all">All accounts</option>
+            </select>
+        </div>
+        <div>
+            <input type="submit" name="submit" value="Filter" />
+        </div>
+    </form>
+<?php } ?>
 <div>
     <table>
         <tr>
@@ -30,7 +64,7 @@ if (isset($_POST["accNum"])) {
             <th>APY</th>
             <th>More Info</th>
         </tr>
-        <?php foreach (get_accounts(true, true, $page) as $acc) : ?>
+        <?php foreach ($accounts as $acc) : ?>
         <!--<tr onclick="<?php echo("pst('" . $acc["account_number"] . "'"); ?>)">-->
         <tr>
             <?php $v = $acc["account_number"]; ?>

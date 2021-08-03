@@ -33,6 +33,18 @@ tr:active {
     padding: 8px 0;
 }
 
+#navig {
+    background-color: #ff8533;
+    border-top: 2px solid #00264d;
+    border-bottom: 2px solid #00264d;
+    display: inline-block;
+    justify-content: space-between;
+    margin-left: 5px;
+    margin-right: 5px;
+    left: 10px;
+    
+  }
+
 .sidenav a {
     padding: 6px 8px 6px 16px;
     text-decoration: none;

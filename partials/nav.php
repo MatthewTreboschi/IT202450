@@ -20,17 +20,15 @@ require_once(__DIR__ . "/../lib/functions.php");
 <style>
 <?php require_once(__DIR__ . "/../partials/style.css"); ?>
 </style>
-<nav>
-    <ul>
-        <?php if (is_logged_in()) : ?>
-            <li><a href="home.php">Home</a></li>
-        <?php endif; ?>
-        <?php if (!is_logged_in()) : ?>
-            <li><a href="login.php">Login</a></li>
-            <li><a href="register.php">Register</a></li>
-        <?php endif; ?>
-        <?php if (is_logged_in()) : ?>
-            <li><a href="logout.php">Logout</a></li>
-        <?php endif; ?>
-    </ul>
-</nav>
+<p id="navig">
+<?php if (is_logged_in()) : ?>
+    <a href="home.php">Home</a>
+<?php endif; ?>
+<?php if (!is_logged_in()) : ?>
+    <a href="login.php">Login</a>
+    <a href="register.php">Register</a>
+<?php endif; ?>
+<?php if (is_logged_in()) : ?>
+    <a href="logout.php">Logout</a>
+<?php endif; ?>
+</p>

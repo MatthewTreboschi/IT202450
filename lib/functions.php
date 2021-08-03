@@ -258,6 +258,7 @@ function get_accounts($limit = false, $loans = true, $page = 1, $search = "", $a
         }
         if ($search) {
             $query .= " AND account_number LIKE :search";
+            $params[":search"] = $search;
         }
         if (!$loans) {
             $query .= " AND NOT account_type = 'loan'";
@@ -295,6 +296,7 @@ function count_accounts($loans = true, $search = "", $all=false){
         }
         if ($search) {
             $query .= " AND account_number LIKE :search";
+            $params[":search"] = $search;
         }
         if (!$loans) {
             $query .= " AND NOT account_type = 'loan'";

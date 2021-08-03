@@ -22,8 +22,9 @@ $search = "";
 $all = false;
 if (isset($_POST["search"])) {
     $search = "%" . $_POST["search"] . "%";
-    echo($search);
-    $all = true;
+    if ($_POST["accs"]=="all"){
+        $all = true;
+    }
 }
 $accounts = get_accounts(true, true, $page, $search, $all);
 $total_pages = ceil(count_accounts()/5);
@@ -36,6 +37,13 @@ $total_pages = ceil(count_accounts()/5);
         <div>
             <label for="search">Search</label>
             <input type="text" name="search" id="search" />
+        </div>
+        <div>
+            <label for="accs">Search All accounts or just this user's?</label>
+            <select name="accs" id="accs" >
+                <option value="this">This user's</option>
+                <option value="all">All accounts</option>
+            </select>
         </div>
         <div>
             <input type="submit" name="submit" value="Filter" />

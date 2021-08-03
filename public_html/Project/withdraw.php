@@ -26,7 +26,7 @@ if (isset($_POST["submit"])) {
         $isValid = false;
     }
     if ($isValid) {
-        transaction("000000000000", $accNum, $withdrawal, "withdrawal", $memo);
+        transaction_prep("000000000000", $accNum, $withdrawal, "withdrawal", $memo);
     }
 }
 ?>

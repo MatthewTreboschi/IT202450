@@ -23,12 +23,12 @@ if (isset($_GET["submit"])) {
     
 }
 $transactions = get_transactions($accNum, $start, $end, $type, $page);
-$total_pages = floor(count($transactions)/10)+1;
+$total_pages = ceil(count_transactions()/10);
 ?>
 <h1>This is the transactions page for account <?php echo($accNum)?></h1>
 <h3>Account Number: <?php se($info["account_number"]); ?></h3>
-<h3>Account Type: <?php se($info["account_type"]); ?></h3>
-<h3>Balance: <?php se($info["balance"]); ?></h3>
+<h3>Account Type: <?php $accType = $info["account_type"]; se($accType); ?></h3>
+<h3>Balance: <?php $v = $info["balance"]; if ($accType == "loan") $v*=-1; se($v); ?></h3>
 <h3>Opened: <?php se($info["created"]); ?></h3>
 <div>
     <h4>Filter: </h4>
@@ -71,11 +71,11 @@ $total_pages = floor(count($transactions)/10)+1;
             <td value ="<?php se($v); ?>"><?php se($v); ?></td>
             <?php $v = $transaction["transaction_type"]; ?>
             <td value ="<?php se($v); ?>"><?php se($v); ?></td>
-            <?php $v = $transaction["bal_change"]; ?>
+            <?php $v = $transaction["bal_change"]; if ($accType == "loan") $v*=-1; ?>
             <td value ="<?php se($v); ?>"><?php se($v); ?></td>
             <?php $v = $transaction["memo"]; ?>
             <td value ="<?php se($v); ?>"><?php se($v); ?></td>
-            <?php $v = $transaction["expected_total"]; ?>
+            <?php $v = $transaction["expected_total"]; if ($accType == "loan") $v*=-1; ?>
             <td value ="<?php se($v); ?>"><?php se($v); ?></td>
             <?php $v = $transaction["created"]; ?>
             <td value ="<?php se($v); ?>"><?php se($v); ?></td>

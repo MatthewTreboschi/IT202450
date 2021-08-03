@@ -29,6 +29,11 @@ if (isset($_POST["search"])) {
 $accounts = get_accounts(true, true, $page, $search, $all);
 $total_pages = ceil(count_accounts()/5);
 ?>
+<style>
+tr:active {
+    background-color: #777777
+}
+</style>
 <h1>This is the accounts page</h1>
 <?php if ($_SESSION["admin"]) { ?>
     <h5>By default, these are the accounts of the user you are controlling</h5>

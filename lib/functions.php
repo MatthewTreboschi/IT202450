@@ -245,14 +245,20 @@ function count_users($first="", $last="") {
     }
     return $count;
 }
-function get_accounts($limit = false, $loans = true, $page = 1){
+function get_accounts($limit = false, $loans = true, $page = 1, $search = "", $all=false){
     $accounts = [];
     $params = [];
     $offset = ($page-1)*5;
     if (is_logged_in()){
         $db = getDB();
-        $query = "SELECT * FROM Accounts WHERE user_id = :uid AND closed = false";
-        $params[":uid"] = get_user_id();
+        $query = "SELECT * FROM Accounts WHERE closed = false";
+        if (!$all or !$_SESSION["admin"]) {
+            $query .= " AND user_id = :uid";
+            $params[":uid"] = get_user_id();
+        }
+        if ($search) {
+            $query .= " AND account_number LIKE :search";
+        }
         if (!$loans) {
             $query .= " AND NOT account_type = 'loan'";
         }

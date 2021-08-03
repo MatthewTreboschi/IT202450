@@ -24,8 +24,8 @@ if (!is_logged_in()) {
         toggle_active($_POST["active"]);
     }
     if (isset($_POST["control"])) {
-        echo ($_POST["control"]);
         $_SESSION["user"] = json_decode($_POST["control"], true);
+        echo("You're now in the account of " . $_SESSION["user"]["email"] . "<br>You still have all of your admin privileges");
     }
     $first = "";
     $last = "";

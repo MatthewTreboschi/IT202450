@@ -19,8 +19,28 @@ if (isset($_POST["accNum"])) {
     $_SESSION["accNum"] = $accNum;
     die(header("Location: transactions.php"));
 }
+$search = "";
+$all = false;
+if (isset($_POST["search"])) {
+    $search = "%" . $_POST["search"] . "%";
+    $all = true;
+}
+$accounts = get_accounts(true, true, $page, $search, $all);
 ?>
 <h1>This is the accounts page</h1>
+<?php if ($_SESSION["admin"]) { ?>
+    <h5>By default, these are the accounts of the user you are controlling</h5>
+    <h5>This form will allow you to search for anyone's account by account number</h5>
+    <form method="POST">
+        <div>
+            <label for="search">Confirm Password</label>
+            <input type="text" name="search" id="search" />
+        </div>
+        <div>
+            <input type="submit" name="submit" value="Filter" />
+        </div>
+    </form>
+<?php } ?>
 <div>
     <table>
         <tr>
@@ -30,7 +50,7 @@ if (isset($_POST["accNum"])) {
             <th>APY</th>
             <th>More Info</th>
         </tr>
-        <?php foreach (get_accounts(true, true, $page) as $acc) : ?>
+        <?php foreach ($accounts as $acc) : ?>
         <!--<tr onclick="<?php echo("pst('" . $acc["account_number"] . "'"); ?>)">-->
         <tr>
             <?php $v = $acc["account_number"]; ?>
